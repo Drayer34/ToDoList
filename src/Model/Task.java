@@ -1,4 +1,4 @@
-package ToDoLIst;
+package Model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,9 +17,8 @@ public class Task {
 		this.categorie = categorie;
 	}
 
-
 	public int isLate(){
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		String dateString = this.deadline.DateToString();
 		java.util.Date date = null;
 
@@ -67,7 +66,7 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task [deadline=" + deadline + ", name=" + name + ", categorie=" + categorie + "]";
+		return name;
 	}
 	
 }

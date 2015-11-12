@@ -1,4 +1,4 @@
-package ToDoLIst;
+package Model;
 
 public class Categorie {
 
@@ -19,9 +19,7 @@ public class Categorie {
 
 	@Override
 	public String toString() {
-		return "Categorie [catName=" + catName + "]";
+		return catName;
 	}
-	
-	
 	
 }
