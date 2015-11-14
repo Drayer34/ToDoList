@@ -1,8 +1,5 @@
 package Model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Vector;
@@ -34,11 +31,11 @@ public class Manager {
 		}*/
 	}
 	
-	public void addTask(Date date, String name, Categorie categorie,String taskType){
-		if(taskType.compareTo("Tâche au long cours") == 0){
+	public void addTask(Date date, String name, Categorie categorie,TaskType taskType ){
+		if(taskType == TaskType.TacheLongCour){
 			listTask.add(new TaskLongCours(date,name,categorie));
 		}
-		else if(taskType.compareTo("Tâche ponctuelle") == 0){
+		else if(taskType == TaskType.TachePonctuelle){
 			listTask.add(new TaskPonctuelle(date,name,categorie));
 		}			
 	}

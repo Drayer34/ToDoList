@@ -13,18 +13,18 @@ public class DisplayConsole {
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 		calendar.add (Calendar.DATE, 6);
 		date = calendar.getTime();
-		m.addTask(date,"Tâche ponctuelle 1",m.getListCategorie().get(0), "Tâche ponctuelle");
+		m.addTask(date,"Tâche ponctuelle 1",m.getListCategorie().get(0), TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, 5);
 		date = calendar.getTime();
 
-		m.addTask(date,"Tâche ponctuelle 2",m.getListCategorie().get(0), "Tâche ponctuelle");
+		m.addTask(date,"Tâche ponctuelle 2",m.getListCategorie().get(0),TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, 5);
 		date = calendar.getTime();
 
-		m.addTask(date,"Tâche ponctuelle 3",m.getListCategorie().get(0), "Tâche ponctuelle");
+		m.addTask(date,"Tâche ponctuelle 3",m.getListCategorie().get(0), TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, -20);
 		date = calendar.getTime();
-		m.addTask(date,"Tâche ponctuelle 4",m.getListCategorie().get(0), "Tâche ponctuelle");
+		m.addTask(date,"Tâche ponctuelle 4",m.getListCategorie().get(0), TaskType.TachePonctuelle);
 		
 		System.out.println(m.getListTask().toString());
 		m.sortTaskList();

@@ -1,7 +1,10 @@
 package controler;
 
+import java.util.Date;
+
 import Model.Manager;
 import Model.Task;
+import Model.TaskType;
 import View.DisplayManager;
 import View.DisplayNewTask;
 
@@ -18,8 +21,13 @@ public class Controler {
 		this.manager = manager;
 	}
 
-	public void newTask(){
-		DisplayNewTask displayNewTask = new DisplayNewTask();
+	public void newTask(String type){
+		if(type.compareTo(displayManager.getTaskLongCour()) == 0){
+		displayNewTask = new DisplayNewTask(this,manager,TaskType.TacheLongCour);
+		}
+		else if(type.compareTo(displayManager.getTaskPonctuelle()) == 0){
+			displayNewTask = new DisplayNewTask(this,manager,TaskType.TachePonctuelle);
+		}
 	}
 
 	public void updateTaskDesc(){
@@ -33,8 +41,8 @@ public class Controler {
 			Task t = displayManager.getSelectedTask();
 			displayManager.switchButton(false);
 			
-			manager.renameTask(t, displayManager.getName());
-			manager.changeTaskCategorie(t, displayManager.getCurrentCategorie());
+			manager.renameTask(t, displayManager.get_Name());
+			manager.changeTaskCategorie(t, displayManager.getSelectedCategorie());
 			System.out.println(t);
 			
 		}else{
@@ -42,7 +50,17 @@ public class Controler {
 			displayManager.updateTaskDesc();
 		}
 	}
-
+	
+	public void newTaskButtons(String buttons){
+		if(buttons.compareTo("Valider") == 0){
+			manager.addTask(new Date(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(), displayNewTask.getTaskType());
+			displayNewTask.close();
+			displayManager.updateTaskList();
+		}else if(buttons.compareTo("Annuler") == 0){
+			displayNewTask.close();
+		}
+	}
+	
 	public void setDisplay(DisplayManager d){
 		this.displayManager = d;
 	}

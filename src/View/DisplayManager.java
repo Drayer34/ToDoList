@@ -2,10 +2,10 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,7 +18,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -33,12 +32,15 @@ public class DisplayManager extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private Controler controler;
 	private Manager manager;
+	private String taskLongCour = "Tâche au long cour";
+	private String taskPonctuelle = "Tâche ponctuelle";
+	
 	private JMenuBar bar = new JMenuBar();
-	private JMenu menu  = new JMenu("Menu");
-	private JMenuItem newTask = new JMenuItem("Nouvelle tache");
+	private JMenu menu  = new JMenu("Nouvelle tâche");
+	private JMenuItem newTask1 = new JMenuItem(taskLongCour);
+	private JMenuItem newTask2 = new JMenuItem(taskPonctuelle);
 	private JScrollPane sc_pan;
 	private JList<Task> taskList;
 	private JPanel taskDesc = new JPanel();
@@ -64,34 +66,39 @@ public class DisplayManager extends JFrame{
 
 	public void init(){
 		setMinimumSize(new Dimension(600,400));
-		MenuBarListener mbListener = new MenuBarListener();
 		TaskListListener taskListListener = new TaskListListener();
 
-		
 		taskDesc.setLayout(new BorderLayout());
 		taskList = new JList<Task>(manager.getListTask());
 		sc_pan = new JScrollPane(taskList);
 
-		newTask.addActionListener(mbListener);
 		taskList.addListSelectionListener(taskListListener);
-		bar.add(menu);
-		menu.add(newTask);
-		add(bar,"North");
 		sc_pan.setPreferredSize(new Dimension(200,400));
 		add(sc_pan,"West");
-		add(taskDesc,"Center");
+		initMenuBar();
 		initTaskDesc();
 
 		pack();
 	}
+	public void initMenuBar(){
+		MenuBarListener mbListener = new MenuBarListener();
+		newTask1.addActionListener(mbListener);
+		newTask2.addActionListener(mbListener);
+		menu.add(newTask1);
+		menu.add(newTask2);
 
+		bar.add(menu);
+		add(bar,"North");
+
+	}
 	public void initTaskDesc(){
 		
 		JPanel info = new JPanel();
 		JPanel buttons = new JPanel();
+		JPanel b_title = new JPanel();
 		JPanel b_name = new JPanel();
 		JPanel b_cate = new JPanel();
-
+		
 		valide.addActionListener(new BoutonListener());
 		modifer.addActionListener(new BoutonListener());
 		cancel.addActionListener(new BoutonListener());
@@ -108,21 +115,26 @@ public class DisplayManager extends JFrame{
 
 
 		info.setLayout(new BoxLayout(info,BoxLayout.PAGE_AXIS));
+		b_title.setLayout(new BoxLayout(b_title, BoxLayout.LINE_AXIS));
 		b_name.setLayout(new BoxLayout(b_name, BoxLayout.LINE_AXIS));
 		b_cate.setLayout(new BoxLayout(b_cate, BoxLayout.LINE_AXIS));
+		
+		b_title.add(new JLabel("Tache faut faire le si machin"));
+		name.setMaximumSize(new Dimension(150,20));
 		b_name.add(new JLabel("Nom          "));
 		b_name.add(name);
 
-
-		name.setMaximumSize(new Dimension(150,20));
-
-
+		
 		categorie.setMaximumSize(new Dimension(150,20));
 		b_cate.add(new JLabel("Categorie "));
 		b_cate.add(categorie);
-
+		
+		info.add(b_title);
+		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_name);
+		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_cate);
+		
 		categorie.setEnabled(false);
 		taskDesc.setVisible(false);
 
@@ -132,8 +144,11 @@ public class DisplayManager extends JFrame{
 		
 		valide.setEnabled(false);
 		cancel.setEnabled(false);
+		add(taskDesc,"Center");
 	}
-
+	public void updateTaskList(){
+		taskList.updateUI();
+	}
 	public void updateTaskDesc(){
 		taskDesc.setVisible(true);
 		name.setText(taskList.getSelectedValue().toString());
@@ -164,7 +179,7 @@ public class DisplayManager extends JFrame{
 	public class MenuBarListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			controler.newTask();
+			controler.newTask(((JMenuItem)e.getSource()).getText());
 		}
 	}
 
@@ -185,17 +200,27 @@ public class DisplayManager extends JFrame{
 		
 	}
 
-	public String getName() {
+	public String get_Name() {
 		return name.getText();
 	}
 
-	public Categorie getCurrentCategorie() {
+	public Categorie getSelectedCategorie() {
 		return (Categorie) categorie.getSelectedItem();
 	}
 	
 	public Task getSelectedTask(){
 		return taskList.getSelectedValue();
 	}
+
+	public String getTaskLongCour() {
+		return taskLongCour;
+	}
+
+	public String getTaskPonctuelle() {
+		return taskPonctuelle;
+	}
+
+
 
 	
 }

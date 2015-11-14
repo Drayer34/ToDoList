@@ -19,7 +19,6 @@ public class TaskLongCours extends Task{
 		this.begin = begin;
 		// TODO Auto-generated constructor stub
 	}
-	
 	public boolean updateIsLate(){
 		if(super.updateIsLate()){
 			return true;
