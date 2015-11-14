@@ -1,44 +1,34 @@
 package Model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class Task {
+public abstract class Task implements Comparable<Task>{
 
 	private Date deadline;
 	private String name;
 	private Categorie categorie;
-	
-	
-	public Task(Date deadline, String name, Categorie categorie) {
+	private boolean is_end = false;
+	private boolean is_late = false;
+
+	public Task(Date date, String name, Categorie categorie) {
 		super();
-		this.deadline = deadline;
+
+		this.deadline = date;
 		this.name = name;
 		this.categorie = categorie;
 	}
 
-	public int isLate(){
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String dateString = this.deadline.DateToString();
-		java.util.Date date = null;
-
-		try{
-			date = formatter.parse(dateString);
-			System.out.println(date);
-			System.out.println(formatter.format(date));
+	public boolean updateIsLate(){
+		Date currentDate =  new Date();
+		if(currentDate.after(deadline)){
+			is_late = true;
+			return true;
 		}
-		catch(ParseException e){
-			e.printStackTrace();
-		}
-		if (date != null){
-			java.util.Date today = new java.util.Date();
-			if(today.compareTo(date)<=0){
-				return 0;
-			}
-			else {return 1;}
-		}
-		else {return -1;}
+		is_late = false;
+		return false;
 	}
+	
+	public abstract void isDone();
 	
 	public Date getDeadline() {
 		return deadline;
@@ -64,6 +54,23 @@ public class Task {
 		this.categorie = categorie;
 	}
 
+	public boolean getIs_end() {
+		return is_end;
+	}
+	public void setIs_end(boolean is_end) {
+		this.is_end = is_end;
+	}
+
+	public boolean getIs_late() {
+		return is_late;
+	}
+	public void setIs_late(boolean is_late) {
+		this.is_late = is_late;
+	}
+
+	public int compareTo(Task t) {
+		return (int) (this.deadline.getTime() - t.deadline.getTime());
+	};
 	@Override
 	public String toString() {
 		return name;

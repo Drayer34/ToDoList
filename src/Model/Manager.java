@@ -1,5 +1,10 @@
 package Model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Vector;
 
 import View.DisplayManager;
@@ -16,15 +21,28 @@ public class Manager {
 		listCategorie.add(new Categorie("Default"));
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personel"));
-		listTask.add(new Task(new Date(5,5,1996),"yo",listCategorie.get(1)));
+		
+		/*SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
+		String dateInString = "31-08-1982";
+		Date date;
+		try {
+			date = sdf.parse(dateInString);
+			listTask.add(new TaskPonctuelle(date,"yo",listCategorie.get(1)));
+		} catch (ParseException e) {
+			System.out.println("Erreur date to string");
+			e.printStackTrace();
+		}*/
 	}
 	
-	public void addTask(Date date, String name, Categorie categorie){
-		listTask.add(new Task(date,name,categorie));
+	public void addTask(Date date, String name, Categorie categorie,String taskType){
+		if(taskType.compareTo("Tâche au long cours") == 0){
+			listTask.add(new TaskLongCours(date,name,categorie));
+		}
+		else if(taskType.compareTo("Tâche ponctuelle") == 0){
+			listTask.add(new TaskPonctuelle(date,name,categorie));
+		}			
 	}
 	
-
-
 	public void addCategorie(String name){
 		listCategorie.add(new Categorie(name));
 	}
@@ -64,5 +82,8 @@ public class Manager {
 
 	public Vector<Categorie> getListCategorie() {
 		return listCategorie;
+	}
+	public void sortTaskList(){
+		Collections.sort(listTask);
 	}
 }
