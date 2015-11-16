@@ -90,4 +90,7 @@ public class TaskLongCours extends Task{
 		return super.getDeadline();
 	}
 	
+	public boolean isLongCourt(){
+		return true;
+	}
 }

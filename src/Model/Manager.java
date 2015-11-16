@@ -11,7 +11,11 @@ public class Manager {
 	DisplayManager displayManager;
 	Vector<Task> listTask;
 	Vector<Categorie> listCategorie;
-
+	Vector<Task> bilan;
+	public double perctOk;
+	public double perctLate;
+	public double perctCurrent;
+	
 	public Manager(){
 		listTask = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
@@ -54,6 +58,32 @@ public class Manager {
 		t.setCategorie(categorie);;
 	}
 	
+	public void bilan (Date fin){
+		//Date today = new Date();
+		int cptEnd=0;
+		int cptLate=0;
+		int cptCurt=0;
+		int total=0;
+		
+		for(Task t : listTask){
+			if (t.getDeadline().getTime()<=fin.getTime())
+				if (!t.getIs_end()){
+					bilan.add(t);
+					cptCurt++;
+				}
+				else {
+					cptEnd++;
+				}
+				if (t.updateIsLate()){
+					cptLate++;
+				}
+				total++;
+		}
+		this.perctCurrent = (double)cptCurt/(double)total *100;
+		this.perctLate = (double)cptLate/(double)total *100;
+		this.perctOk = (double)cptEnd/(double)total *100;
+	}
+	
 	public void setDisplay(DisplayManager d){
 		this.displayManager = d;
 	}
@@ -75,4 +105,9 @@ public class Manager {
 	public void sortTaskListPartialDeadLine(){
 		Collections.sort(listTask, new CompareTaskDate());
 	}
+	//Tri la liste par point (imortance) mais ne prend pas 1-Important 3-moyen  5-faible
+	public void sortTaskListImportance(){
+		Collections.sort(listTask, new CompareTaskImportance()); 
+	}
+	
 }

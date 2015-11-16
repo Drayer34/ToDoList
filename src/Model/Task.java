@@ -69,26 +69,38 @@ public abstract class Task implements Comparable<Task>{
 	public void setIs_late(boolean is_late) {
 		this.is_late = is_late;
 	}
-	
+
 	public Importance getImportance() {
 		return importance;
 	}
 	public void setImportance(Importance importance) {
 		this.importance = importance;
 	}
-	
+
 	public int compareTo(Task t) {
-			return (int) (this.deadline.getTime() - t.deadline.getTime());
+		return (int) (this.deadline.getTime() - t.deadline.getTime());
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 	public Date nextPartialDeadline(){
 		return deadline;
 	}
 
-	
+	public abstract boolean isLongCourt();
+
+	public int nbPoints(){
+		int point=0;
+
+		if (this.updateIsLate())
+			point+=5;
+		if(this.isLongCourt())
+			point+=5;
+		return point;
+	}
+
+
 }

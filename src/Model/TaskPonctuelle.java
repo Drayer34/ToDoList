@@ -15,4 +15,8 @@ public class TaskPonctuelle extends Task{
 		super.setIs_end(true);
 	}
 	
+	public boolean isLongCourt(){
+		return false;
+	}
+	
 }
