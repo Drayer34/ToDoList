@@ -34,11 +34,11 @@ public class DisplayManager extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Controler controler;
 	private Manager manager;
-	private String taskLongCour = "Tâche au long cour";
-	private String taskPonctuelle = "Tâche ponctuelle";
+	private String taskLongCour = "Tï¿½che au long cour";
+	private String taskPonctuelle = "Tï¿½che ponctuelle";
 	
 	private JMenuBar bar = new JMenuBar();
-	private JMenu menu  = new JMenu("Nouvelle tâche");
+	private JMenu menu  = new JMenu("Nouvelle tï¿½che");
 	private JMenuItem newTask1 = new JMenuItem(taskLongCour);
 	private JMenuItem newTask2 = new JMenuItem(taskPonctuelle);
 	private JScrollPane sc_pan;

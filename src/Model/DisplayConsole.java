@@ -9,22 +9,22 @@ public class DisplayConsole {
 	public static void main(String[] args) {
 		Manager m = new Manager();
 		Date date = new Date();
-		// Initialisé à la date. 
+		// Initialisï¿½ ï¿½ la date. 
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 		calendar.add (Calendar.DATE, 6);
 		date = calendar.getTime();
-		m.addTask(date,"Tâche ponctuelle 1",m.getListCategorie().get(0), TaskType.TachePonctuelle);
+		m.addTask(date,"Tache ponctuelle 1",m.getListCategorie().get(0),Importance.Faible, TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, 5);
 		date = calendar.getTime();
 
-		m.addTask(date,"Tâche ponctuelle 2",m.getListCategorie().get(0),TaskType.TachePonctuelle);
+		m.addTask(date,"Tache ponctuelle 2",m.getListCategorie().get(0),Importance.Faible ,TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, 5);
 		date = calendar.getTime();
 
-		m.addTask(date,"Tâche ponctuelle 3",m.getListCategorie().get(0), TaskType.TachePonctuelle);
+		m.addTask(date,"Tache ponctuelle 3",m.getListCategorie().get(0),Importance.Moyenne, TaskType.TachePonctuelle);
 		calendar.add (Calendar.DATE, -20);
 		date = calendar.getTime();
-		m.addTask(date,"Tâche ponctuelle 4",m.getListCategorie().get(0), TaskType.TachePonctuelle);
+		m.addTask(date,"Tache ponctuelle 4",m.getListCategorie().get(0),Importance.Elevée, TaskType.TachePonctuelle);
 		
 		System.out.println(m.getListTask().toString());
 		m.sortTaskList();
@@ -35,18 +35,20 @@ public class DisplayConsole {
 		System.out.println(m.getListTask().get(0).getIs_late());
 		
 		calendar = new GregorianCalendar(); 
-		calendar.add (Calendar.DATE, 5);
+		calendar.add (Calendar.DATE, 4);
 		date = calendar.getTime();
-		TaskLongCours t = new TaskLongCours(date, "Tache",m.getListCategorie().get(0));
-		calendar.add (Calendar.DATE, -10);
-		date = calendar.getTime();
-		t.setBegin(date);
+		TaskLongCours t = new TaskLongCours(date, "Tache",m.getListCategorie().get(0), Importance.Elevée);
+
 		System.out.println(t.toString());
 		System.out.println(t.getDeadline());
 		System.out.println(t.getBegin());
 		System.out.println(t.updateIsLate());
-		t.setPercent(50);
+		t.setPercent(90);
 		System.out.println(t.updateIsLate());
+		System.out.println("ATTENTION");
+		System.out.println(t.nextPartialDeadline());
+		
+		
 	}
 
 }

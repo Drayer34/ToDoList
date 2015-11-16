@@ -9,13 +9,15 @@ public abstract class Task implements Comparable<Task>{
 	private Categorie categorie;
 	private boolean is_end = false;
 	private boolean is_late = false;
+	private Importance importance;
 
-	public Task(Date date, String name, Categorie categorie) {
+	public Task(Date date, String name, Categorie categorie, Importance importance) {
 		super();
 
 		this.deadline = date;
 		this.name = name;
 		this.categorie = categorie;
+		this.importance = importance;
 	}
 
 	public boolean updateIsLate(){
@@ -27,9 +29,9 @@ public abstract class Task implements Comparable<Task>{
 		is_late = false;
 		return false;
 	}
-	
+
 	public abstract void isDone();
-	
+
 	public Date getDeadline() {
 		return deadline;
 	}
@@ -67,13 +69,26 @@ public abstract class Task implements Comparable<Task>{
 	public void setIs_late(boolean is_late) {
 		this.is_late = is_late;
 	}
-
+	
+	public Importance getImportance() {
+		return importance;
+	}
+	public void setImportance(Importance importance) {
+		this.importance = importance;
+	}
+	
 	public int compareTo(Task t) {
-		return (int) (this.deadline.getTime() - t.deadline.getTime());
-	};
+			return (int) (this.deadline.getTime() - t.deadline.getTime());
+	}
+	
 	@Override
 	public String toString() {
 		return name;
 	}
+	
+	public Date nextPartialDeadline(){
+		return deadline;
+	}
+
 	
 }

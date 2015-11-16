@@ -18,25 +18,14 @@ public class Manager {
 		listCategorie.add(new Categorie("Default"));
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personel"));
-		
-		/*SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
-		String dateInString = "31-08-1982";
-		Date date;
-		try {
-			date = sdf.parse(dateInString);
-			listTask.add(new TaskPonctuelle(date,"yo",listCategorie.get(1)));
-		} catch (ParseException e) {
-			System.out.println("Erreur date to string");
-			e.printStackTrace();
-		}*/
 	}
 	
-	public void addTask(Date date, String name, Categorie categorie,TaskType taskType ){
+	public void addTask(Date date, String name, Categorie categorie,Importance importance,TaskType taskType ){
 		if(taskType == TaskType.TacheLongCour){
-			listTask.add(new TaskLongCours(date,name,categorie));
+			listTask.add(new TaskLongCours(date,name,categorie, importance));
 		}
 		else if(taskType == TaskType.TachePonctuelle){
-			listTask.add(new TaskPonctuelle(date,name,categorie));
+			listTask.add(new TaskPonctuelle(date,name,categorie,importance));
 		}			
 	}
 	
@@ -82,5 +71,8 @@ public class Manager {
 	}
 	public void sortTaskList(){
 		Collections.sort(listTask);
+	}
+	public void sortTaskListPartialDeadLine(){
+		Collections.sort(listTask, new CompareTaskDate());
 	}
 }

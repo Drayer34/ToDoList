@@ -1,6 +1,8 @@
 package Model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class TaskLongCours extends Task{
@@ -8,14 +10,14 @@ public class TaskLongCours extends Task{
 	private Date begin;
 	private int percent = 0;
 
-	public TaskLongCours(Date deadline, String name, Categorie categorie) {
-		super(deadline, name, categorie);
+	public TaskLongCours(Date deadline, String name, Categorie categorie, Importance importance) {
+		super(deadline, name, categorie, importance);
 		begin = new Date();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie) {
-		super(deadline, name, categorie);
+	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie, Importance importance) {
+		super(deadline, name, categorie, importance);
 		this.begin = begin;
 		// TODO Auto-generated constructor stub
 	}
@@ -39,7 +41,6 @@ public class TaskLongCours extends Task{
 		super.setIs_late(false);
 		return super.getIs_late();
 	}
-
 
 
 	@Override
@@ -68,4 +69,25 @@ public class TaskLongCours extends Task{
 		this.percent = percent;
 	}
 
+	public Date nextPartialDeadline(){
+		GregorianCalendar calendar = new java.util.GregorianCalendar();
+		calendar.setTime(begin);
+		long diff = super.getDeadline().getTime() - begin.getTime();
+		long par4 = diff/4;
+		
+		if(percent<25){
+			calendar.add(Calendar.MILLISECOND, (int) par4);
+			return calendar.getTime();
+		}
+		else if(percent <50){
+			calendar.add(Calendar.MILLISECOND, (int) par4*2);
+			return calendar.getTime();
+		}
+		else if(percent <75){
+			calendar.add(Calendar.MILLISECOND, (int) par4*3);
+			return calendar.getTime();
+		}
+		return super.getDeadline();
+	}
+	
 }

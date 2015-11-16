@@ -2,6 +2,7 @@ package controler;
 
 import java.util.Date;
 
+import Model.Importance;
 import Model.Manager;
 import Model.Task;
 import Model.TaskType;
@@ -53,7 +54,7 @@ public class Controler {
 	
 	public void newTaskButtons(String buttons){
 		if(buttons.compareTo("Valider") == 0){
-			manager.addTask(new Date(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(), displayNewTask.getTaskType());
+			manager.addTask(new Date(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),Importance.Faible, displayNewTask.getTaskType());
 			displayNewTask.close();
 			displayManager.updateTaskList();
 		}else if(buttons.compareTo("Annuler") == 0){
