@@ -4,14 +4,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Vector;
 
+import View.DisplayCategorieManager;
 import View.DisplayManager;
 
 public class Manager {
 	
-	DisplayManager displayManager;
-	Vector<Task> listTask;
-	Vector<Categorie> listCategorie;
-	Vector<Task> bilan;
+	private DisplayManager displayManager;
+	private DisplayCategorieManager displayCategorieManager;
+	private Vector<Task> listTask;
+	private Vector<Categorie> listCategorie;
+	private Vector<Task> bilan;
 	public double perctOk;
 	public double perctLate;
 	public double perctCurrent;
@@ -21,7 +23,7 @@ public class Manager {
 		listCategorie = new Vector<Categorie>();
 		listCategorie.add(new Categorie("Default"));
 		listCategorie.add(new Categorie("Travail"));
-		listCategorie.add(new Categorie("Personel"));
+		listCategorie.add(new Categorie("Personnel"));
 	}
 	
 	public void addTask(Date date, String name, Categorie categorie,Importance importance,TaskType taskType ){
@@ -30,28 +32,40 @@ public class Manager {
 		}
 		else if(taskType == TaskType.TachePonctuelle){
 			listTask.add(new TaskPonctuelle(date,name,categorie,importance));
-		}			
+		}		
+		displayManager.updateTaskList();
+		displayManager.updateTaskDesc(false);
+	}
+	public void removeTask(Task selectedTask) {
+		listTask.remove(selectedTask);
+		displayManager.updateTaskList();
+		displayManager.updateTaskDesc(false);		
 	}
 	
 	public void addCategorie(String name){
 		listCategorie.add(new Categorie(name));
+		displayCategorieManager.updateComboBox();
+		displayCategorieManager.updateNameAfterAdd();
 	}
-	
-	public void renameCategorie(Categorie c, String name){
-		listCategorie.add(new Categorie(name));
-	}
-	
-	public void deleteCategorie(Categorie c){
-		listCategorie.remove(c);
+	public void removeCategorie(Categorie c) {
 		for(Task t : listTask){
 			if(t.getCategorie() == c){
 				t.setCategorie(listCategorie.get(0));//Default
 			}
 		}
+		listCategorie.remove(c);
+		displayCategorieManager.updateRemoveTask();
 	}
+	
+	public void renameCategorie(Categorie c, String name){
+		c.setCatName(name);
+		displayCategorieManager.updateComboBox();
+	}
+	
 	
 	public void renameTask(Task t, String name){
 		t.setName(name);
+		displayManager.updateTaskList();
 	}
 
 	public void changeTaskCategorie(Task t, Categorie categorie){
@@ -84,10 +98,13 @@ public class Manager {
 		this.perctOk = (double)cptEnd/(double)total *100;
 	}
 	
-	public void setDisplay(DisplayManager d){
+	public void setDisplayManager(DisplayManager d){
 		this.displayManager = d;
 	}
 	
+	public void setDisplayCategorieManager(DisplayCategorieManager d){
+		this.displayCategorieManager = d;
+	}
 	public DisplayManager getDisplayManager() {
 		return displayManager;
 	}
@@ -109,5 +126,8 @@ public class Manager {
 	public void sortTaskListImportance(){
 		Collections.sort(listTask, new CompareTaskImportance()); 
 	}
-	
+
+
+
+
 }

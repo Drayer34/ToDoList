@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.toedter.calendar.JDateChooser;
+
 import Model.Categorie;
 import Model.Manager;
 import Model.Task;
@@ -34,13 +36,17 @@ public class DisplayManager extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Controler controler;
 	private Manager manager;
-	private String taskLongCour = "Tï¿½che au long cour";
-	private String taskPonctuelle = "Tï¿½che ponctuelle";
-	
+	private String taskLongCour = "Tache au long cour";
+	private String taskPonctuelle = "Tache ponctuelle";
+
 	private JMenuBar bar = new JMenuBar();
-	private JMenu menu  = new JMenu("Nouvelle tï¿½che");
-	private JMenuItem newTask1 = new JMenuItem(taskLongCour);
-	private JMenuItem newTask2 = new JMenuItem(taskPonctuelle);
+	private JMenu menuNewTask  = new JMenu("Nouvelle tache");
+	private JMenu menuEdit  = new JMenu("Option");
+	private JMenuItem menuCategorie  = new JMenuItem("Editer categorie");
+
+	private JMenuItem newTaskItem1 = new JMenuItem(taskLongCour);
+	private JMenuItem newTaskItem2 = new JMenuItem(taskPonctuelle);
+
 	private JScrollPane sc_pan;
 	private JList<Task> taskList;
 	private JPanel taskDesc = new JPanel();
@@ -49,12 +55,14 @@ public class DisplayManager extends JFrame{
 	private JButton valide = new JButton("Valider");
 	private JButton modifer = new JButton("Modifier");
 	private JButton cancel = new JButton("Annuler");
+	private JButton delete = new JButton("Supprimer");
+
+	private JDateChooser dateChooser = new JDateChooser();
 
 	public DisplayManager(Controler controler,Manager manager){
 		this.manager = manager;
 		this.controler = controler;
-		manager.setDisplay(this);
-		controler.setDisplay(this);
+		manager.setDisplayManager(this);
 
 		setTitle("Task Manager");
 		this.setVisible(true);
@@ -71,7 +79,6 @@ public class DisplayManager extends JFrame{
 		taskDesc.setLayout(new BorderLayout());
 		taskList = new JList<Task>(manager.getListTask());
 		sc_pan = new JScrollPane(taskList);
-
 		taskList.addListSelectionListener(taskListListener);
 		sc_pan.setPreferredSize(new Dimension(200,400));
 		add(sc_pan,"West");
@@ -81,36 +88,43 @@ public class DisplayManager extends JFrame{
 		pack();
 	}
 	public void initMenuBar(){
-		MenuBarListener mbListener = new MenuBarListener();
-		newTask1.addActionListener(mbListener);
-		newTask2.addActionListener(mbListener);
-		menu.add(newTask1);
-		menu.add(newTask2);
+		newTaskMenuBarListener mbListener = new newTaskMenuBarListener();
+		newTaskItem1.addActionListener(mbListener);
+		newTaskItem2.addActionListener(mbListener);
+		menuNewTask.add(newTaskItem1);
+		menuNewTask.add(newTaskItem2);
 
-		bar.add(menu);
+
+		menuCategorie.addActionListener(new categorieMenuBarListener());
+		menuEdit.add(menuCategorie);
+
+		bar.add(menuNewTask);
+		bar.add(menuEdit);
+
 		add(bar,"North");
 
 	}
+
 	public void initTaskDesc(){
-		
+
 		JPanel info = new JPanel();
 		JPanel buttons = new JPanel();
 		JPanel b_title = new JPanel();
 		JPanel b_name = new JPanel();
 		JPanel b_cate = new JPanel();
-		
+		JPanel b_date = new JPanel();
+
 		valide.addActionListener(new BoutonListener());
 		modifer.addActionListener(new BoutonListener());
 		cancel.addActionListener(new BoutonListener());
-		
+		delete.addActionListener(new BoutonListener());
+
 		categorie = new JComboBox<Categorie>(manager.getListCategorie());
-		name.setEnabled(false);
 
 		taskDesc.add(info, "Center");
 		taskDesc.add(buttons, "South");
 
 		info.setPreferredSize(new Dimension(300,350));
-		//buttons.setPreferredSize(new Dimension(300,100));
 		buttons.setMaximumSize(new Dimension(300,100));
 
 
@@ -118,86 +132,117 @@ public class DisplayManager extends JFrame{
 		b_title.setLayout(new BoxLayout(b_title, BoxLayout.LINE_AXIS));
 		b_name.setLayout(new BoxLayout(b_name, BoxLayout.LINE_AXIS));
 		b_cate.setLayout(new BoxLayout(b_cate, BoxLayout.LINE_AXIS));
-		
+
 		b_title.add(new JLabel("Tache faut faire le si machin"));
+
 		name.setMaximumSize(new Dimension(150,20));
+		name.setEnabled(false);
 		b_name.add(new JLabel("Nom          "));
 		b_name.add(name);
 
-		
+		/*Initialisation de categorie */
 		categorie.setMaximumSize(new Dimension(150,20));
+		categorie.setEnabled(false);
 		b_cate.add(new JLabel("Categorie "));
 		b_cate.add(categorie);
-		
+
+		/*Initialisation Date Picker */		
+
+
+		b_date.add(new JLabel("Deadline "));
+		dateChooser.setPreferredSize(new Dimension(150,20));
+		dateChooser.setEnabled(false);
+		b_date.add(dateChooser);
+
+		/* Ajout des box */
 		info.add(b_title);
 		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_name);
 		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_cate);
-		
-		categorie.setEnabled(false);
+		info.add(Box.createRigidArea(new Dimension(0,20)));
+		info.add(b_date);
+
 		taskDesc.setVisible(false);
 
-		buttons.add(valide,"West");
-		buttons.add(modifer,"Center");
-		buttons.add(cancel,"East");
-		
+		buttons.add(valide);
+		buttons.add(modifer);
+		buttons.add(cancel);
+		buttons.add(delete);
+
 		valide.setEnabled(false);
 		cancel.setEnabled(false);
 		add(taskDesc,"Center");
 	}
+
 	public void updateTaskList(){
 		taskList.updateUI();
 	}
-	public void updateTaskDesc(){
-		taskDesc.setVisible(true);
-		name.setText(taskList.getSelectedValue().toString());
-		if(taskList.getSelectedValue().toString().length()*25 > name.getWidth()){
-			name.setSize(new Dimension(taskList.getSelectedValue().toString().length()*25,20));
-		}
-		categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
-	}
-	
-	
-	public void switchButton(boolean b){
-		if (b) {
-			valide.setEnabled(b);
-			cancel.setEnabled(b);
-			modifer.setEnabled(!b);
-			name.setEnabled(b);
-			categorie.setEnabled(b);
-		}
-		else {
-			valide.setEnabled(b);
-			cancel.setEnabled(b);
-			modifer.setEnabled(!b);
-			name.setEnabled(b);
-			categorie.setEnabled(b);
+
+
+	public void updateTaskDesc(boolean isVisible){
+		taskDesc.setVisible(isVisible);
+		if(isVisible){
+			name.setText(taskList.getSelectedValue().toString());
+			categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
+			dateChooser.setDate(taskList.getSelectedValue().getDeadline());
+		}else{
+			taskList.clearSelection();
 		}
 	}
-	
-	public class MenuBarListener implements ActionListener{
+
+	public void switchButtonTaskDesc(boolean b){
+		valide.setEnabled(b);
+		cancel.setEnabled(b);
+		modifer.setEnabled(!b);
+		name.setEnabled(b);
+		categorie.setEnabled(b);
+		dateChooser.setEnabled(b);
+	}
+
+	/*Désactive le menu nouvelle tache */
+	public void disableMenuNewTask(){
+		menuNewTask.setEnabled(false);
+		menuNewTask.validate();
+	}
+
+	/*Activer le menu nouvelle tache */
+	public void activateMenuNewTask(){
+		menuNewTask.setEnabled(true);
+		menuNewTask.validate();
+	}
+
+	public class newTaskMenuBarListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			controler.newTask(((JMenuItem)e.getSource()).getText());
 		}
 	}
 
-	public class TaskListListener implements ListSelectionListener{
-
+	public class categorieMenuBarListener implements ActionListener{
 		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			controler.updateTaskDesc();
+		public void actionPerformed(ActionEvent e) {
+			controler.newDisplayCategorieManager();
 		}
 	}
-	
-	public class BoutonListener implements ActionListener{
 
+	public class TaskListListener implements ListSelectionListener{
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if(taskList.getSelectedValue() != null){
+				taskDesc.setVisible(true);
+				name.setText(taskList.getSelectedValue().toString());
+				categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
+				dateChooser.setDate(taskList.getSelectedValue().getDeadline());
+			}
+		}
+	}
+
+	public class BoutonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			controler.taskModifer(((JButton)e.getSource()).getText());
 		}
-		
 	}
 
 	public String get_Name() {
@@ -207,7 +252,7 @@ public class DisplayManager extends JFrame{
 	public Categorie getSelectedCategorie() {
 		return (Categorie) categorie.getSelectedItem();
 	}
-	
+
 	public Task getSelectedTask(){
 		return taskList.getSelectedValue();
 	}
@@ -222,5 +267,5 @@ public class DisplayManager extends JFrame{
 
 
 
-	
+
 }
