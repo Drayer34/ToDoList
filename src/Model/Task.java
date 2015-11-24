@@ -92,7 +92,6 @@ public abstract class Task implements Comparable<Task>{
 
 	public abstract boolean isLongCourt();
 
-	public abstract int percent();
 	public int nbPoints(){
 		int point=0;
 

@@ -92,8 +92,4 @@ public class TaskLongCours extends Task{
 		return true;
 	}
 
-	@Override
-	public int percent() {
-		return percent;
-	}
 }

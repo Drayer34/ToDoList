@@ -31,6 +31,7 @@ import com.toedter.calendar.JDateChooser;
 import Model.Categorie;
 import Model.Manager;
 import Model.Task;
+import Model.TaskLongCours;
 import controler.Controler;
 
 public class DisplayManager extends JFrame{
@@ -224,7 +225,7 @@ public class DisplayManager extends JFrame{
 			b_progressBar.setVisible(false);
 			if(taskList.getSelectedValue().isLongCourt()){
 				percent.setText("");
-				progressBar.setValue(taskList.getSelectedValue().percent());
+				progressBar.setValue(((TaskLongCours)taskList.getSelectedValue()).getPercent());
 				b_progressBar.setVisible(true);
 				title.setText(taskLongCour);
 				progressBar.updateUI();
@@ -305,7 +306,7 @@ public class DisplayManager extends JFrame{
 				b_progressBar.setVisible(false);
 				if(taskList.getSelectedValue().isLongCourt()){
 					percent.setText("");
-					progressBar.setValue(taskList.getSelectedValue().percent());
+					progressBar.setValue(((TaskLongCours)taskList.getSelectedValue()).getPercent());
 					progressBar.updateUI();
 					b_progressBar.setVisible(true);
 					title.setText(taskLongCour);

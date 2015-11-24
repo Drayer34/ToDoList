@@ -18,9 +18,5 @@ public class TaskPonctuelle extends Task{
 	public boolean isLongCourt(){
 		return false;
 	}
-	public int percent(){
-		if(super.getIs_end())
-			return 100;
-		return 0;
-	}
+
 }
