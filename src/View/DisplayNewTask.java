@@ -53,6 +53,8 @@ public class DisplayNewTask extends JFrame{
 			setTitle("Nouvelle tache au long cour");
 		else
 			setTitle("Nouvelle tache ponctuelle");
+		setLocationRelativeTo(null);
+
 		this.setMinimumSize(new Dimension(250,250));
 		this.setVisible(true);
 		this.addWindowListener(new WindowClosing());

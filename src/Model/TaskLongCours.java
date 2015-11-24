@@ -13,13 +13,11 @@ public class TaskLongCours extends Task{
 	public TaskLongCours(Date deadline, String name, Categorie categorie, Importance importance) {
 		super(deadline, name, categorie, importance);
 		begin = new Date();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie, Importance importance) {
 		super(deadline, name, categorie, importance);
 		this.begin = begin;
-		// TODO Auto-generated constructor stub
 	}
 	public boolean updateIsLate(){
 		if(super.updateIsLate()){
@@ -44,7 +42,7 @@ public class TaskLongCours extends Task{
 
 
 	@Override
-	public void isDone() {
+	public void updateEnd() {
 		if(percent == 100){
 			super.setIs_end(true);
 		}
@@ -92,5 +90,10 @@ public class TaskLongCours extends Task{
 	
 	public boolean isLongCourt(){
 		return true;
+	}
+
+	@Override
+	public int percent() {
+		return percent;
 	}
 }

@@ -8,7 +8,7 @@ import View.DisplayCategorieManager;
 import View.DisplayManager;
 
 public class Manager {
-	
+
 	private DisplayManager displayManager;
 	private DisplayCategorieManager displayCategorieManager;
 	private Vector<Task> listTask;
@@ -17,7 +17,7 @@ public class Manager {
 	public double perctOk;
 	public double perctLate;
 	public double perctCurrent;
-	
+
 	public Manager(){
 		listTask = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
@@ -25,7 +25,7 @@ public class Manager {
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personnel"));
 	}
-	
+
 	public void addTask(Date date, String name, Categorie categorie,Importance importance,TaskType taskType ){
 		if(taskType == TaskType.TacheLongCour){
 			listTask.add(new TaskLongCours(date,name,categorie, importance));
@@ -41,7 +41,7 @@ public class Manager {
 		displayManager.updateTaskList();
 		displayManager.updateTaskDesc(false);		
 	}
-	
+
 	public void addCategorie(String name){
 		listCategorie.add(new Categorie(name));
 		displayCategorieManager.updateComboBox();
@@ -56,29 +56,39 @@ public class Manager {
 		listCategorie.remove(c);
 		displayCategorieManager.updateRemoveTask();
 	}
-	
+
 	public void renameCategorie(Categorie c, String name){
 		c.setCatName(name);
 		displayCategorieManager.updateComboBox();
 	}
-	
-	
+
+
 	public void renameTask(Task t, String name){
 		t.setName(name);
 		displayManager.updateTaskList();
 	}
-
+	public void percentChange(TaskLongCours t, int percent){
+		t.setPercent(percent);
+		t.updateEnd();
+		if(t.getIs_end()){
+			listTask.remove(t);
+			displayManager.updateTaskList();
+			displayManager.updateTaskDesc(false);
+		}else{
+			displayManager.updateTaskDesc(true);
+		}
+	}
 	public void changeTaskCategorie(Task t, Categorie categorie){
 		t.setCategorie(categorie);;
 	}
-	
+
 	public void bilan (Date fin){
 		//Date today = new Date();
 		int cptEnd=0;
 		int cptLate=0;
 		int cptCurt=0;
 		int total=0;
-		
+
 		for(Task t : listTask){
 			if (t.getDeadline().getTime()<=fin.getTime())
 				if (!t.getIs_end()){
@@ -88,20 +98,20 @@ public class Manager {
 				else {
 					cptEnd++;
 				}
-				if (t.updateIsLate()){
-					cptLate++;
-				}
-				total++;
+			if (t.updateIsLate()){
+				cptLate++;
+			}
+			total++;
 		}
 		this.perctCurrent = (double)cptCurt/(double)total *100;
 		this.perctLate = (double)cptLate/(double)total *100;
 		this.perctOk = (double)cptEnd/(double)total *100;
 	}
-	
+
 	public void setDisplayManager(DisplayManager d){
 		this.displayManager = d;
 	}
-	
+
 	public void setDisplayCategorieManager(DisplayCategorieManager d){
 		this.displayCategorieManager = d;
 	}
@@ -126,8 +136,5 @@ public class Manager {
 	public void sortTaskListImportance(){
 		Collections.sort(listTask, new CompareTaskImportance()); 
 	}
-
-
-
 
 }

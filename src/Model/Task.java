@@ -30,7 +30,7 @@ public abstract class Task implements Comparable<Task>{
 		return false;
 	}
 
-	public abstract void isDone();
+	public abstract void updateEnd();
 
 	public Date getDeadline() {
 		return deadline;
@@ -92,6 +92,7 @@ public abstract class Task implements Comparable<Task>{
 
 	public abstract boolean isLongCourt();
 
+	public abstract int percent();
 	public int nbPoints(){
 		int point=0;
 

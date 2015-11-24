@@ -43,6 +43,8 @@ public class DisplayCategorieManager extends JFrame{
 
 		manager.setDisplayCategorieManager(this);
 		setTitle("Option categorie");
+		setLocationRelativeTo(null);
+
 		this.setVisible(true);
 		this.setMinimumSize(new Dimension(250,250));
 		init();

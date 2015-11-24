@@ -11,12 +11,16 @@ public class TaskPonctuelle extends Task{
 	}
 
 	@Override
-	public void isDone() {
+	public void updateEnd() {
 		super.setIs_end(true);
 	}
 	
 	public boolean isLongCourt(){
 		return false;
 	}
-	
+	public int percent(){
+		if(super.getIs_end())
+			return 100;
+		return 0;
+	}
 }

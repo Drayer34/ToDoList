@@ -8,6 +8,7 @@ import Model.Categorie;
 import Model.Importance;
 import Model.Manager;
 import Model.Task;
+import Model.TaskLongCours;
 import Model.TaskType;
 import View.DisplayCategorieManager;
 import View.DisplayManager;
@@ -38,7 +39,9 @@ public class Controler {
 		displayManager.disableMenuNewTask();
 	}
 
-
+/*
+ * Fonction de controlle sur les boutton du panel task description
+ */
 	public void taskModifer(String b) {
 		if (b.compareTo("Modifier") == 0){
 			displayManager.switchButtonTaskDesc(true);
@@ -47,6 +50,12 @@ public class Controler {
 			displayManager.switchButtonTaskDesc(false);
 			manager.renameTask(t, displayManager.get_Name());
 			manager.changeTaskCategorie(t, displayManager.getSelectedCategorie());
+			if(t.isLongCourt()){
+				if(displayManager.getPercent() == 100){
+					displayManager.showMessage(1);
+				}
+				manager.percentChange((TaskLongCours) t,displayManager.getPercent());
+			}
 		}else if(b.compareTo("Annuler") == 0){
 			displayManager.switchButtonTaskDesc(false);
 			displayManager.updateTaskDesc(true);
@@ -112,7 +121,8 @@ public class Controler {
 		}
 	}
 
-
+	/*Update bouttons task Description */
+	
 	public void updateEditW(){
 		displayCategorieManager.updateReName();
 		if(displayCategorieManager.getSelectedCategorieIndex() == 0){
