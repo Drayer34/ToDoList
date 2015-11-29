@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Model.Categorie;
-import Model.Importance;
 import Model.Manager;
 import Model.Task;
 import Model.TaskLongCours;
@@ -23,8 +22,8 @@ public class Controler {
 
 	public Controler(Manager manager){
 		//Initialiser les vue das le controler
-		this.displayManager = new DisplayManager(this, manager);
 		this.manager = manager;
+		this.displayManager = new DisplayManager(this, manager);
 	}
 
 	/* Crée une fenetre nouvelle tache */
@@ -50,6 +49,7 @@ public class Controler {
 			displayManager.switchButtonTaskDesc(false);
 			manager.renameTask(t, displayManager.get_Name());
 			manager.changeTaskCategorie(t, displayManager.getSelectedCategorie());
+			manager.changeImportance(t, displayManager.getImportance());
 			if(t.isLongCourt()){
 				if(displayManager.getPercent() == 100){
 					displayManager.showMessage(1);
@@ -61,6 +61,8 @@ public class Controler {
 			displayManager.updateTaskDesc(true);
 		}else if(b.compareTo("Supprimer") == 0){
 			manager.removeTask(displayManager.getSelectedTask());
+		}else if(b.compareTo("Terminer") == 0){
+			manager.endTask(displayManager.getSelectedTask());
 		}
 	}
 
@@ -85,9 +87,20 @@ public class Controler {
 			displayNewTask.printErrorDate(3);
 		}
 		else if(buttons.compareTo("Valider") == 0 ){
-			manager.addTask(displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),Importance.Faible, displayNewTask.getTaskType());
+			manager.addTask(displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance(), displayNewTask.getTaskType());
 			displayNewTask.close();
 			displayManager.activateMenuNewTask();//bouton nouvelle tache menu bar
+			sortControler(displayManager.getSelectedSort());
+		}
+	}
+	
+	public void sortControler(String button){
+		if(button.compareTo("Tri 1") == 0){
+			manager.sortTaskList();
+		}else if(button.compareTo("Tri 2") == 0){
+			manager.sortTaskListPartialDeadLine();
+		}else if(button.compareTo("Tri 3") == 0){
+			manager.sortTaskListImportance();
 		}
 	}
 

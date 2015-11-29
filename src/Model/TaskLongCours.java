@@ -10,12 +10,12 @@ public class TaskLongCours extends Task{
 	private Date begin;
 	private int percent = 0;
 
-	public TaskLongCours(Date deadline, String name, Categorie categorie, Importance importance) {
+	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance) {
 		super(deadline, name, categorie, importance);
 		begin = new Date();
 	}
 
-	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie, Importance importance) {
+	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie, int importance) {
 		super(deadline, name, categorie, importance);
 		this.begin = begin;
 	}
@@ -40,9 +40,7 @@ public class TaskLongCours extends Task{
 		return super.getIs_late();
 	}
 
-
-	@Override
-	public void updateEnd() {
+	public void end() {
 		if(percent == 100){
 			super.setIs_end(true);
 		}

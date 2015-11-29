@@ -12,6 +12,7 @@ public class Manager {
 	private DisplayManager displayManager;
 	private DisplayCategorieManager displayCategorieManager;
 	private Vector<Task> listTask;
+	private Vector<Task> listTaskSort3;
 	private Vector<Categorie> listCategorie;
 	private Vector<Task> bilan;
 	public double perctOk;
@@ -20,26 +21,47 @@ public class Manager {
 
 	public Manager(){
 		listTask = new Vector<Task>();
+		bilan = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
 		listCategorie.add(new Categorie("Default"));
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personnel"));
 	}
 
-	public void addTask(Date date, String name, Categorie categorie,Importance importance,TaskType taskType ){
+	public void addTask(Date date, String name, Categorie categorie,int importance,TaskType taskType ){
 		if(taskType == TaskType.TacheLongCour){
-			listTask.add(new TaskLongCours(date,name,categorie, importance));
+			TaskLongCours t = new TaskLongCours(date,name,categorie, importance);
+			listTask.add(t);
+			bilan.add(t);
 		}
 		else if(taskType == TaskType.TachePonctuelle){
-			listTask.add(new TaskPonctuelle(date,name,categorie,importance));
-		}		
+			TaskPonctuelle t = new TaskPonctuelle(date,name,categorie, importance);
+			listTask.add(t);
+			bilan.add(t);
+		}
+
 		displayManager.updateTaskList();
 		displayManager.updateTaskDesc(false);
 	}
 	public void removeTask(Task selectedTask) {
 		listTask.remove(selectedTask);
+		bilan.remove(selectedTask);
 		displayManager.updateTaskList();
 		displayManager.updateTaskDesc(false);		
+	}
+
+	/**
+	 * 
+	 * @param selectedTask la tache selectionné dans la jlist
+	 * @result supprime la tache de listTask si elle est terminé 
+	 */
+	public void endTask(Task selectedTask){
+		selectedTask.end();
+		if(selectedTask.getIs_end()){
+			listTask.remove(selectedTask);
+			displayManager.updateTaskList();
+			displayManager.updateTaskDesc(false);
+		}
 	}
 
 	public void addCategorie(String name){
@@ -65,13 +87,12 @@ public class Manager {
 
 	public void renameTask(Task t, String name){
 		t.setName(name);
-		displayManager.updateTaskList();
 	}
 	public void percentChange(TaskLongCours t, int percent){
 		t.setPercent(percent);
-		t.updateEnd();
+		t.end();
 		if(t.getIs_end()){
-			listTask.remove(t);
+			endTask(t);
 			displayManager.updateTaskList();
 			displayManager.updateTaskDesc(false);
 		}else{
@@ -81,7 +102,9 @@ public class Manager {
 	public void changeTaskCategorie(Task t, Categorie categorie){
 		t.setCategorie(categorie);;
 	}
-
+	public void changeImportance(Task t, int importance){
+		t.setImportance(importance);
+	}
 	public void bilan (Date fin){
 		//Date today = new Date();
 		int cptEnd=0;
@@ -126,15 +149,60 @@ public class Manager {
 	public Vector<Categorie> getListCategorie() {
 		return listCategorie;
 	}
+
+	public Vector<Task> getListTaskSort3() {
+		return listTaskSort3;
+	}
+
 	public void sortTaskList(){
 		Collections.sort(listTask);
+		displayManager.updateTaskList();
 	}
 	public void sortTaskListPartialDeadLine(){
 		Collections.sort(listTask, new CompareTaskDate());
+		displayManager.updateTaskList();
 	}
 	//Tri la liste par point (imortance) mais ne prend pas 1-Important 3-moyen  5-faible
 	public void sortTaskListImportance(){
-		Collections.sort(listTask, new CompareTaskImportance()); 
-	}
+		Collections.sort(listTask, new CompareTaskImportance());
+		Vector<Task> importante = new Vector<Task>();
+		Vector<Task> moyen = new Vector<Task>();
+		Vector<Task> faible = new Vector<Task>();
+		listTaskSort3 = new Vector<Task>();
 
+		for(Task t : listTask){
+			switch(t.getImportance()){
+			case 0:	
+				faible.add(t);
+				break;
+			case 1:	
+				moyen.add(t);
+				break;
+			case 2:	
+				importante.add(t);
+				break;
+			}
+		}
+
+		if(importante.size() > 0){
+			listTaskSort3.add(importante.get(0));
+		}
+		int count = 0;
+		for(Task t : moyen){
+			count++;
+			listTaskSort3.add(t);
+			if(count >= 3){
+				break;
+			}
+		}
+		count = 0;
+		for(Task t : importante){
+			count++;
+			listTaskSort3.add(t);
+			if(count >= 5){
+				break;
+			}
+		}
+		displayManager.updateTaskList();
+	}
 }

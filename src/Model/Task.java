@@ -9,9 +9,9 @@ public abstract class Task implements Comparable<Task>{
 	private Categorie categorie;
 	private boolean is_end = false;
 	private boolean is_late = false;
-	private Importance importance;
+	private int importance;// 0 : faible / 1 : moyen / 2 : importante
 
-	public Task(Date date, String name, Categorie categorie, Importance importance) {
+	public Task(Date date, String name, Categorie categorie, int importance) {
 		super();
 
 		this.deadline = date;
@@ -29,9 +29,7 @@ public abstract class Task implements Comparable<Task>{
 		is_late = false;
 		return false;
 	}
-
-	public abstract void updateEnd();
-
+	public abstract void end();
 	public Date getDeadline() {
 		return deadline;
 	}
@@ -70,10 +68,11 @@ public abstract class Task implements Comparable<Task>{
 		this.is_late = is_late;
 	}
 
-	public Importance getImportance() {
+	public int getImportance() {
 		return importance;
 	}
-	public void setImportance(Importance importance) {
+	
+	public void setImportance(int importance) {
 		this.importance = importance;
 	}
 
@@ -92,15 +91,7 @@ public abstract class Task implements Comparable<Task>{
 
 	public abstract boolean isLongCourt();
 
-	public int nbPoints(){
-		int point=0;
 
-		if (this.updateIsLate())
-			point+=5;
-		if(this.isLongCourt())
-			point+=5;
-		return point;
-	}
 
 
 }

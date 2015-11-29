@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 import Model.Categorie;
+import Model.Importance;
 import Model.Manager;
 import Model.TaskType;
 import controler.Controler;
@@ -38,8 +39,10 @@ public class DisplayNewTask extends JFrame{
 	private JButton cancel = new JButton("Annuler");;
 	private JDateChooser beginDateChooser = new JDateChooser();
 	private JDateChooser endDateChooser = new JDateChooser();
+	private JComboBox<Importance> importance;
 	private JPanel b_name = new JPanel();
 	private JPanel b_cate = new JPanel();
+	private JPanel b_importance = new JPanel();
 	private JPanel b_dateEnd = new JPanel();
 	private JPanel b_dateBegin = new JPanel();
 
@@ -70,12 +73,18 @@ public class DisplayNewTask extends JFrame{
 		b_dateEnd.setLayout(new BoxLayout(b_dateEnd, BoxLayout.LINE_AXIS));
 		b_name.setLayout(new BoxLayout(b_name, BoxLayout.LINE_AXIS));
 		b_cate.setLayout(new BoxLayout(b_cate, BoxLayout.LINE_AXIS));
-
+		b_importance.setLayout(new BoxLayout(b_importance, BoxLayout.LINE_AXIS));
+		
 		categorie = new JComboBox<Categorie>(manager.getListCategorie());
 		categorie.setMaximumSize(new Dimension(150,20));
 		b_cate.add(new JLabel("Categorie?         "));
 		b_cate.add(categorie);
-
+		
+		importance = new JComboBox<Importance>(Importance.values());
+		importance.setMaximumSize(new Dimension(150,20));
+		b_importance.add(new JLabel("Importance?      "));
+		b_importance.add(importance);
+		
 		name.setMaximumSize(new Dimension(150,20));
 		b_name.add(new JLabel("Nom?                  "));
 		b_name.add(name);
@@ -92,7 +101,9 @@ public class DisplayNewTask extends JFrame{
 		contents.add(Box.createRigidArea(new Dimension(0,20)));
 		contents.add(b_cate);
 		contents.add(Box.createRigidArea(new Dimension(0,20)));
-		
+		contents.add(b_importance);
+		contents.add(Box.createRigidArea(new Dimension(0,20)));
+
 		if(taskType == TaskType.TacheLongCour){
 			initTacheLongCour();
 		}
@@ -171,6 +182,10 @@ public class DisplayNewTask extends JFrame{
 			JOptionPane.showMessageDialog(new JFrame(),"Erreur inattendu !");
 			break;
 		}
+	}
+
+	public int getImportance() {
+		return importance.getSelectedIndex();
 	}
 
 }

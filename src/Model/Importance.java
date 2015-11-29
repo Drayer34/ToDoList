@@ -1,7 +1,7 @@
 package Model;
 
 public enum Importance {
-	Elevée,
+	Faible,
 	Moyenne,
-	Faible;
+	Importante;
 }
