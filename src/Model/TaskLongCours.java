@@ -6,38 +6,34 @@ import java.util.GregorianCalendar;
 
 
 public class TaskLongCours extends Task{
-	
-	private Date begin;
+
 	private int percent = 0;
 
 	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance) {
 		super(deadline, name, categorie, importance);
-		begin = new Date();
 	}
 
-	public TaskLongCours(Date deadline,Date begin, String name, Categorie categorie, int importance) {
-		super(deadline, name, categorie, importance);
-		this.begin = begin;
+	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance, Date begin) {
+		super(deadline, name, categorie, importance, begin);
 	}
+
 	public boolean updateIsLate(){
 		if(super.updateIsLate()){
 			return true;
 		}else{
-			Date currentDate = new Date();
-			long CONST_DURATION_OF_DAY = 1000l * 60 * 60 * 24;
-			long total_diff = super.getDeadline().getTime() - begin.getTime();
-			long remaining_diff = super.getDeadline().getTime() - currentDate.getTime();
-			long nbTotalDay = (total_diff/CONST_DURATION_OF_DAY);
-			long nbRemainingDay = (remaining_diff/CONST_DURATION_OF_DAY);
-
-			System.out.println(nbRemainingDay*100/nbTotalDay);
-			if(percent < nbRemainingDay*100/nbTotalDay){
+			Date today = new Date();
+			Date theorique =this.nextPartialDeadline();
+			if ( theorique.getTime() < today.getTime()){
+				//System.out.println(true);
 				super.setIs_late(true);
 				return true;
 			}
+			else{
+				super.setIs_late(false);
+				return false;
+			}
 		}
-		super.setIs_late(false);
-		return super.getIs_late();
+
 	}
 
 	public void end() {
@@ -45,16 +41,6 @@ public class TaskLongCours extends Task{
 			super.setIs_end(true);
 		}
 	}
-	
-	public Date getBegin() {
-		return begin;
-	}
-
-
-	public void setBegin(Date begin) {
-		this.begin = begin;
-	}
-
 
 	public int getPercent() {
 		return percent;
@@ -67,10 +53,10 @@ public class TaskLongCours extends Task{
 
 	public Date nextPartialDeadline(){
 		GregorianCalendar calendar = new java.util.GregorianCalendar();
-		calendar.setTime(begin);
-		long diff = super.getDeadline().getTime() - begin.getTime();
+		calendar.setTime(getBegin());
+		long diff = super.getDeadline().getTime() - getBegin().getTime();
 		long par4 = diff/4;
-		
+
 		if(percent<25){
 			calendar.add(Calendar.MILLISECOND, (int) par4);
 			return calendar.getTime();
@@ -85,7 +71,7 @@ public class TaskLongCours extends Task{
 		}
 		return super.getDeadline();
 	}
-	
+
 	public boolean isLongCourt(){
 		return true;
 	}

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public abstract class Task implements Comparable<Task>{
 
+	private Date begin;
 	private Date deadline;
 	private String name;
 	private Categorie categorie;
@@ -13,7 +14,16 @@ public abstract class Task implements Comparable<Task>{
 
 	public Task(Date date, String name, Categorie categorie, int importance) {
 		super();
-
+		this.begin = new Date(); 
+		this.deadline = date;
+		this.name = name;
+		this.categorie = categorie;
+		this.importance = importance;
+	}
+	
+	public Task(Date date, String name, Categorie categorie, int importance, Date begin) {
+		super();
+		this.begin = begin; 
 		this.deadline = date;
 		this.name = name;
 		this.categorie = categorie;
@@ -87,6 +97,14 @@ public abstract class Task implements Comparable<Task>{
 
 	public Date nextPartialDeadline(){
 		return deadline;
+	}
+	
+	public Date getBegin() {
+		return begin;
+	}
+
+	public void setBegin(Date begin) {
+		this.begin = begin;
 	}
 
 	public abstract boolean isLongCourt();

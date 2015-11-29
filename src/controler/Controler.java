@@ -4,11 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import Model.Bilan;
 import Model.Categorie;
 import Model.Manager;
 import Model.Task;
 import Model.TaskLongCours;
 import Model.TaskType;
+import View.DisplayBilanManager;
 import View.DisplayCategorieManager;
 import View.DisplayManager;
 import View.DisplayNewTask;
@@ -16,9 +18,11 @@ import View.DisplayNewTask;
 public class Controler {
 
 	private Manager manager;
+	private Bilan bilan;
 	private DisplayManager displayManager;
 	private DisplayNewTask displayNewTask;
 	private DisplayCategorieManager displayCategorieManager;
+	private DisplayBilanManager displayBilanManager;
 
 	public Controler(Manager manager){
 		//Initialiser les vue das le controler
@@ -111,6 +115,11 @@ public class Controler {
 		displayCategorieManager = new DisplayCategorieManager(this,manager);
 	}
 
+	public void newDisplayBilanManager() {
+		bilan = new Bilan(manager.getSavTaskList());
+		displayBilanManager = new DisplayBilanManager(this,bilan);
+	}
+	
 	public void updateCategorieManager(String buttonInfo) {
 		if(buttonInfo.compareTo("Ajouter") == 0 && displayCategorieManager.get_Name() != null){
 			for(Categorie c : manager.getListCategorie()){
@@ -146,4 +155,10 @@ public class Controler {
 			displayCategorieManager.setModiferEnabled(true);
 		}
 	}
+
+	public void generateBilan() {
+		bilan.generateBilan(displayBilanManager.getDateBegin(), displayBilanManager.getDateEnd());
+	}
+
+
 }

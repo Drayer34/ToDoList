@@ -14,14 +14,11 @@ public class Manager {
 	private Vector<Task> listTask;
 	private Vector<Task> listTaskSort3;
 	private Vector<Categorie> listCategorie;
-	private Vector<Task> bilan;
-	public double perctOk;
-	public double perctLate;
-	public double perctCurrent;
+	private Vector<Task> savTaskList;
 
 	public Manager(){
 		listTask = new Vector<Task>();
-		bilan = new Vector<Task>();
+		savTaskList = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
 		listCategorie.add(new Categorie("Default"));
 		listCategorie.add(new Categorie("Travail"));
@@ -32,12 +29,12 @@ public class Manager {
 		if(taskType == TaskType.TacheLongCour){
 			TaskLongCours t = new TaskLongCours(date,name,categorie, importance);
 			listTask.add(t);
-			bilan.add(t);
+			savTaskList.add(t);
 		}
 		else if(taskType == TaskType.TachePonctuelle){
 			TaskPonctuelle t = new TaskPonctuelle(date,name,categorie, importance);
 			listTask.add(t);
-			bilan.add(t);
+			savTaskList.add(t);
 		}
 
 		displayManager.updateTaskList();
@@ -45,7 +42,7 @@ public class Manager {
 	}
 	public void removeTask(Task selectedTask) {
 		listTask.remove(selectedTask);
-		bilan.remove(selectedTask);
+		savTaskList.remove(selectedTask);
 		displayManager.updateTaskList();
 		displayManager.updateTaskDesc(false);		
 	}
@@ -105,31 +102,6 @@ public class Manager {
 	public void changeImportance(Task t, int importance){
 		t.setImportance(importance);
 	}
-	public void bilan (Date fin){
-		//Date today = new Date();
-		int cptEnd=0;
-		int cptLate=0;
-		int cptCurt=0;
-		int total=0;
-
-		for(Task t : listTask){
-			if (t.getDeadline().getTime()<=fin.getTime())
-				if (!t.getIs_end()){
-					bilan.add(t);
-					cptCurt++;
-				}
-				else {
-					cptEnd++;
-				}
-			if (t.updateIsLate()){
-				cptLate++;
-			}
-			total++;
-		}
-		this.perctCurrent = (double)cptCurt/(double)total *100;
-		this.perctLate = (double)cptLate/(double)total *100;
-		this.perctOk = (double)cptEnd/(double)total *100;
-	}
 
 	public void setDisplayManager(DisplayManager d){
 		this.displayManager = d;
@@ -138,6 +110,7 @@ public class Manager {
 	public void setDisplayCategorieManager(DisplayCategorieManager d){
 		this.displayCategorieManager = d;
 	}
+	
 	public DisplayManager getDisplayManager() {
 		return displayManager;
 	}
@@ -154,6 +127,14 @@ public class Manager {
 		return listTaskSort3;
 	}
 
+	public Vector<Task> getSavTaskList() {
+		return savTaskList;
+	}
+
+	public void setSavTaskList(Vector<Task> savTaskList) {
+		this.savTaskList = savTaskList;
+	}
+	
 	public void sortTaskList(){
 		Collections.sort(listTask);
 		displayManager.updateTaskList();

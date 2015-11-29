@@ -56,6 +56,7 @@ public class DisplayManager extends JFrame{
 	private JMenu menuNewTask  = new JMenu("Nouvelle tache");
 	private JMenu menuEdit  = new JMenu("Option");
 	private JMenuItem menuCategorie  = new JMenuItem("Editer categorie");
+	private JMenuItem menuBilan  = new JMenuItem("Bilan");
 	private JMenu listSort  = new JMenu("Tris");
 	private JCheckBoxMenuItem sort1 = new JCheckBoxMenuItem("Tri 1");
 	private JCheckBoxMenuItem sort2 = new JCheckBoxMenuItem("Tri 2");
@@ -135,8 +136,11 @@ public class DisplayManager extends JFrame{
 		listSort.add(sort3);
 		sort1.setSelected(true);
 		menuCategorie.addActionListener(new categorieMenuBarListener());
+		menuBilan.addActionListener(new bilanMenuBarListener());
 		menuEdit.add(menuCategorie);
 		menuEdit.add(listSort);
+		menuEdit.addSeparator();
+		menuEdit.add(menuBilan);
 		
 		bar.add(menuNewTask);
 		bar.add(menuEdit);
@@ -332,6 +336,14 @@ public class DisplayManager extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			controler.newDisplayCategorieManager();
+		}
+	}
+	
+	public class bilanMenuBarListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controler.newDisplayBilanManager();
 		}
 	}
 	
