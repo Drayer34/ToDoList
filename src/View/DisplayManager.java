@@ -408,6 +408,7 @@ public class DisplayManager extends JFrame{
 		public void valueChanged(ListSelectionEvent e) {
 			if(taskList.getSelectedValue() != null){
 				updateMainFrame(true);
+				switchButtonTaskDesc(false);
 			}
 			else{
 				updateMainFrame(false);

@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -109,5 +110,16 @@ public class DisplayBilanManager extends JFrame{
 	
 	public Date getDateEnd(){
 		return end.getDate();
+	}
+	
+	public void showMessage(int message) {
+		switch(message){
+		case 1 :
+			JOptionPane.showMessageDialog(new JFrame(),"Veuillez initialiser les dates.");	
+			break;
+		case 2 :
+			JOptionPane.showMessageDialog(new JFrame(),"La date de début doit être plus grande à la date de fin. ");
+			break;
+		}
 	}
 }

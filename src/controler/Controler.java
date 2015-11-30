@@ -199,8 +199,16 @@ public class Controler {
 	}
 
 	public void generateBilan() {
-		bilan.generateBilan(displayBilanManager.getDateBegin(), displayBilanManager.getDateEnd());
-		displayBilanManager.updateBilan();
+		if(displayBilanManager.getDateBegin() == null || displayBilanManager.getDateEnd() == null){
+			displayBilanManager.showMessage(1);
+		}
+		else if(displayBilanManager.getDateBegin().after(displayBilanManager.getDateEnd())){
+			displayBilanManager.showMessage(2);
+		}
+		else{
+			bilan.generateBilan(displayBilanManager.getDateBegin(), displayBilanManager.getDateEnd());
+			displayBilanManager.updateBilan();
+		}
 	}
 
 
