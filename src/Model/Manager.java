@@ -19,7 +19,7 @@ public class Manager implements Serializable {
 		listTask = new Vector<Task>();
 		savTaskList = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
-		listCategorie.add(new Categorie("Default"));
+		listCategorie.add(new Categorie("Défault"));
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personnel"));
 	}

@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
@@ -55,9 +53,9 @@ public class DisplayNewTask extends JFrame{
 		this.manager = manager;
 		this.taskType = taskType;
 		if( taskType == TaskType.TacheLongCour)
-			setTitle("Nouvelle tache au long cour");
+			setTitle("Nouvelle tâche au long cours");
 		else
-			setTitle("Nouvelle tache ponctuelle");
+			setTitle("Nouvelle tâche ponctuelle");
 		setLocationRelativeTo(null);
 
 		this.setMinimumSize(new Dimension(250,250));
@@ -79,7 +77,7 @@ public class DisplayNewTask extends JFrame{
 		
 		categorie = new JComboBox<Categorie>(manager.getListCategorie());
 		categorie.setMaximumSize(new Dimension(150,20));
-		b_cate.add(new JLabel("Categorie?         "));
+		b_cate.add(new JLabel("Catégorie?         "));
 		b_cate.add(categorie);
 		
 		importance = new JComboBox<Importance>(Importance.values());
@@ -88,7 +86,7 @@ public class DisplayNewTask extends JFrame{
 		b_importance.add(importance);
 		
 		name.setMaximumSize(new Dimension(150,20));
-		name.setToolTipText("Entrez le nom de la tache");
+		name.setToolTipText("Entrez le nom de la tâche");
 		b_name.add(new JLabel("Nom?                  "));
 		b_name.add(name);
 
@@ -120,7 +118,7 @@ public class DisplayNewTask extends JFrame{
 	public void initTacheLongCour(){
 		b_dateBegin.setLayout(new BoxLayout(b_dateBegin, BoxLayout.LINE_AXIS));
 		beginDateChooser.setMaximumSize(new Dimension(150,20));
-		b_dateBegin.add(new JLabel("Date de debut? "));
+		b_dateBegin.add(new JLabel("Date de début? "));
 		b_dateBegin.add(beginDateChooser);
 
 		contents.add(b_dateBegin);
@@ -173,7 +171,7 @@ public class DisplayNewTask extends JFrame{
 	public void printErrorDate(int codeError) {
 		switch (codeError){
 		case 1 :
-			JOptionPane.showMessageDialog(new JFrame(),"Attention, la date de fin doit être initialisé !");
+			JOptionPane.showMessageDialog(new JFrame(),"Attention, la date de fin doit être initialisée !");
 			break;
 		case 2 : 
 			JOptionPane.showMessageDialog(new JFrame(),"Attention, date de fin >= date du jour !");
@@ -182,7 +180,7 @@ public class DisplayNewTask extends JFrame{
 			JOptionPane.showMessageDialog(new JFrame(),"Attention, date de debut < date de fin !");
 			break;
 		default :
-			JOptionPane.showMessageDialog(new JFrame(),"Erreur inattendu !");
+			JOptionPane.showMessageDialog(new JFrame(),"Erreur inattendue !");
 			break;
 		}
 	}

@@ -11,7 +11,7 @@ public class TaskLongCours extends Task implements Serializable{
 
 	private int percent = 0;
 	private static String colorText = "\"#0040FF\"";
-	
+
 	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance) {
 		super(deadline, name, categorie, importance);
 		super.setColorText(colorText);
@@ -29,6 +29,7 @@ public class TaskLongCours extends Task implements Serializable{
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(new Date());
 			Date theorique =this.nextPartialDeadline();
+			System.out.println(this.nextPartialDeadline());
 			if (calendar.getTime().after(theorique)){
 				super.setIs_late(true);
 				return true;
@@ -60,18 +61,30 @@ public class TaskLongCours extends Task implements Serializable{
 		GregorianCalendar calendar = new java.util.GregorianCalendar();
 		calendar.setTime(super.getBegin());
 		long diff = super.getDeadline().getTime() - super.getBegin().getTime();
-		long par4 = diff/4;
-		
-		if(percent<25){
-			calendar.add(Calendar.MILLISECOND, (int) par4);
+		long par4 = (((diff/4)/1000)/60)/60;
+
+		if(percent <= 25){
+			calendar.add(Calendar.HOUR, (int) par4);
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
-		else if(percent <50){
-			calendar.add(Calendar.MILLISECOND, (int) par4*2);
+		else if(percent <= 50){
+			calendar.add(Calendar.HOUR, (int) par4*2);
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
-		else if(percent <75){
-			calendar.add(Calendar.MILLISECOND, (int) par4*3);
+		else if(percent <= 75){
+			calendar.add(Calendar.HOUR, (int) par4*3);
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
 		return super.getDeadline();
@@ -80,7 +93,7 @@ public class TaskLongCours extends Task implements Serializable{
 	public boolean isLongCourt(){
 		return true;
 	}
-	
+
 
 	public String toString(){
 		return "<html><font color="+super.getColorText()+">"+super.toString()+"</font></html>";

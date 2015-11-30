@@ -48,11 +48,11 @@ public class DisplayManager extends JFrame{
 
 	private Controler controler;
 	private Manager manager;
-	private String taskLongCour = "Tache au long cour";
-	private String taskPonctuelle = "Tache ponctuelle";
+	private String taskLongCour = "Tâche au long cours";
+	private String taskPonctuelle = "Tâche ponctuelle";
 
 	private JMenuBar bar = new JMenuBar();
-	private JMenu menuNewTask  = new JMenu("Nouvelle tache");
+	private JMenu menuNewTask  = new JMenu("Nouvelle tâche");
 	private JMenu menuEdit  = new JMenu("Option");
 	private JMenuItem menuCategorie  = new JMenuItem("Editer categorie");
 	private JMenuItem menuBilan  = new JMenuItem("Bilan");
@@ -75,7 +75,7 @@ public class DisplayManager extends JFrame{
 	private JButton modifer = new JButton("Modifier");
 	private JButton cancel = new JButton("Annuler");
 	private JButton delete = new JButton("Supprimer");
-	private JButton finish = new JButton("Terminer la tache");
+	private JButton finish = new JButton("Tâche finie");
 
 	private JTextField percent = new JTextField("");
 	private JProgressBar progressBar = new JProgressBar();
@@ -475,10 +475,10 @@ public class DisplayManager extends JFrame{
 	public void showMessage(int message) {
 		switch(message){
 		case 1 :
-			JOptionPane.showMessageDialog(new JFrame(),"Vous venez de terminer votre tache celle-ci a ï¿½tï¿½ transfï¿½rï¿½ dans le bilan.");	
+			JOptionPane.showMessageDialog(new JFrame(),"Vous venez de terminer votre tâche celle-ci a été transférée dans le bilan.");	
 			break;
 		case 2 :
-			JOptionPane.showMessageDialog(new JFrame(),"La date de fin ne peut pas Ãªtre anterieur Ã  la date du jour celle-ci n'a pas Ã©tait modifÃ©");
+			JOptionPane.showMessageDialog(new JFrame(),"La date de fin ne peut pas être anterieur à la date du jour celle-ci n'a pas été modifiée");
 		}
 	}
 	public String getSelectedSort(){

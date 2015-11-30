@@ -164,6 +164,6 @@ public class DisplayCategorieManager extends JFrame{
 	}
 
 	public void printError() {
-		JOptionPane.showMessageDialog(new JFrame(),"Il ï¿½xiste une categorie portant dï¿½jï¿½ ce nom !");		
+		JOptionPane.showMessageDialog(new JFrame(),"Il existe une catégorie portant déjà ce nom !");		
 	}
 }

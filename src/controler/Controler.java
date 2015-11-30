@@ -209,7 +209,7 @@ public class Controler {
 			bilan.generateBilan(displayBilanManager.getDateBegin(), displayBilanManager.getDateEnd());
 			displayBilanManager.updateBilan();
 		}
-	}
+	} 
 
 
 

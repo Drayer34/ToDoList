@@ -28,15 +28,15 @@ public class DisplayBilanManager extends JFrame{
 	private Bilan bilan;
 	private JDateChooser begin = new JDateChooser();
 	private JDateChooser end = new JDateChooser();
-	private JButton generate = new JButton("Gï¿½nï¿½rer");
+	private JButton generate = new JButton("Générer");
 	private JPanel datePanel = new JPanel();
 	private JScrollPane taskPanel;
 	private JPanel percentPanel = new JPanel();
 	private JList<Task> listTaskBilan;
-	private JLabel percentTaskLate = new JLabel("Taches en retard : ");
-	private JLabel percentTaskCurrent = new JLabel("Taches en cours : ");
-	private JLabel percentTaskEnd = new JLabel("Taches finie : ");
-	private JLabel beginingLabel = new JLabel("Dï¿½but : ");
+	private JLabel percentTaskLate = new JLabel("Tâches en retard : ");
+	private JLabel percentTaskCurrent = new JLabel("Tâches en cours : ");
+	private JLabel percentTaskEnd = new JLabel("Tâches finies : ");
+	private JLabel beginingLabel = new JLabel("Début : ");
 	private JLabel endLabel = new JLabel("Fin : ");
 
 	public DisplayBilanManager(Controler controler, Bilan bilan) {
@@ -92,9 +92,9 @@ public class DisplayBilanManager extends JFrame{
 		
 		listTaskBilan.setListData(bilan.getBilanPeriod());
 		listTaskBilan.updateUI();
-		percentTaskCurrent.setText("Taches courantes : "+Double.toString(bilan.getPerctCurrent())+"%");
-		percentTaskLate.setText("Taches en retard : "+Double.toString(bilan.getPerctLate())+"%");
-		percentTaskEnd.setText("Taches finies : "+Double.toString(bilan.getPerctOk())+"%");
+		percentTaskCurrent.setText("Tâches courantes : "+Double.toString(bilan.getPerctCurrent())+"%");
+		percentTaskLate.setText("Tâches en retard : "+Double.toString(bilan.getPerctLate())+"%");
+		percentTaskEnd.setText("Tâches finies : "+Double.toString(bilan.getPerctOk())+"%");
 	}
 	
 	public class ButonListener implements ActionListener {
@@ -118,7 +118,7 @@ public class DisplayBilanManager extends JFrame{
 			JOptionPane.showMessageDialog(new JFrame(),"Veuillez initialiser les dates.");	
 			break;
 		case 2 :
-			JOptionPane.showMessageDialog(new JFrame(),"La date de début doit être plus grande à la date de fin. ");
+			JOptionPane.showMessageDialog(new JFrame(),"La date de début doit être plus grande que la date de fin. ");
 			break;
 		}
 	}

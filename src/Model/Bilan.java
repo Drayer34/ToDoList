@@ -24,7 +24,7 @@ public class Bilan {
 	public void generateBilan (Date debut, Date fin){
 		//Date today = new Date();
 		if(debut == null && fin == null){
-			System.out.println("Date non initialisÃ©");
+			System.out.println("Date non initialisée");
 			return;
 		}
 
