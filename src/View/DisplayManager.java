@@ -84,6 +84,11 @@ public class DisplayManager extends JFrame{
 	private JPanel b_progressBar = new JPanel();
 	private JPanel b_finishButton = new JPanel();
 
+	/**
+	 * Constructeur
+	 * @param controler controleur associé a la fenetre
+	 * @param manager manager associé a la fenetre
+	 */
 	public DisplayManager(Controler controler,Manager manager){
 		this.manager = manager;
 		this.controler = controler;
@@ -96,6 +101,9 @@ public class DisplayManager extends JFrame{
 		pack();
 	}
 
+	/**
+	 * Initialise la frame
+	 */
 	public void init(){
 		setMinimumSize(new Dimension(600,400));
 		TaskListListener taskListListener = new TaskListListener();
@@ -114,6 +122,9 @@ public class DisplayManager extends JFrame{
 
 		pack();
 	}
+	/**
+	 * Initialise la barre des menus
+	 */
 	public void initMenuBar(){
 		newTaskMenuBarListener mbListener = new newTaskMenuBarListener();
 		newTaskItem1.addActionListener(mbListener);
@@ -124,7 +135,9 @@ public class DisplayManager extends JFrame{
 		sort1.addItemListener(new SortListener());
 		sort2.addItemListener(new SortListener());
 		sort3.addItemListener(new SortListener());
-
+		sort1.setToolTipText("Tri en fonction de la deadline");
+		sort2.setToolTipText("Tri en fonction de la deadline et des paliers");
+		sort3.setToolTipText("1 importante - 3 moyennes - 5 faibles");
 		sortGroup.add(sort1);
 		sortGroup.add(sort2);
 		sortGroup.add(sort3);
@@ -148,6 +161,9 @@ public class DisplayManager extends JFrame{
 
 	}
 
+	/**
+	 * Initialise le panel de description de tache
+	 */
 	public void initTaskDesc(){
 
 		JPanel info = new JPanel();
@@ -234,6 +250,7 @@ public class DisplayManager extends JFrame{
 		b_finishButton.setVisible(false);
 
 		/* Ajout des box */
+		
 		info.add(b_title);
 		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_name);
@@ -264,7 +281,7 @@ public class DisplayManager extends JFrame{
 	}
 
 	/**
-	 * @result update pour les tris
+	 * Met à jour la JList contenant les tache en cours pour les tris
 	 */
 	public void updateTaskList(){
 		if(sort3.isSelected()){
@@ -279,7 +296,7 @@ public class DisplayManager extends JFrame{
 
 
 	/**
-	 * update jlist et taskDesc
+	 * Met a jour le descripteur de tache et la JList
 	 * @param isVisible informe de la visibilitÃ© du panel task desc
 	 */
 	public void updateMainFrame(boolean isVisible){
@@ -308,6 +325,7 @@ public class DisplayManager extends JFrame{
 		taskList.updateUI();
 		taskDesc.revalidate();
 	}
+	
 	/**
 	 * Active ou désactive les boutons si on souhaite modifier une tache
 	 * @param b défini le status des bouton (true on modifie la tache / false on ne peut pas modifier la tache
