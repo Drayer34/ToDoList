@@ -1,13 +1,16 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaskPonctuelle extends Task{
+@SuppressWarnings("serial")
+public class TaskPonctuelle extends Task implements Serializable{
 	
+	private static String colorText = "\"#04B404\"";
 	
 	public TaskPonctuelle(Date deadline, String name, Categorie categorie,int importance) {
 		super(deadline, name, categorie, importance);
-		// TODO Auto-generated constructor stub
+		super.setColorText(colorText);
 	}
 
 	public void end(){
@@ -18,4 +21,7 @@ public class TaskPonctuelle extends Task{
 		return false;
 	}
 
+	public String toString(){
+		return "<html><font color="+super.getColorText()+">"+super.toString()+"</font></html>";
+	}
 }

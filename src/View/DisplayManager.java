@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -41,12 +43,9 @@ import Model.Task;
 import Model.TaskLongCours;
 import controler.Controler;
 
+@SuppressWarnings("serial")
 public class DisplayManager extends JFrame{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Controler controler;
 	private Manager manager;
 	private String taskLongCour = "Tache au long cour";
@@ -56,6 +55,7 @@ public class DisplayManager extends JFrame{
 	private JMenu menuNewTask  = new JMenu("Nouvelle tache");
 	private JMenu menuEdit  = new JMenu("Option");
 	private JMenuItem menuCategorie  = new JMenuItem("Editer categorie");
+	private JMenuItem menuBilan  = new JMenuItem("Bilan");
 	private JMenu listSort  = new JMenu("Tris");
 	private JCheckBoxMenuItem sort1 = new JCheckBoxMenuItem("Tri 1");
 	private JCheckBoxMenuItem sort2 = new JCheckBoxMenuItem("Tri 2");
@@ -63,7 +63,6 @@ public class DisplayManager extends JFrame{
 	private ButtonGroup sortGroup = new ButtonGroup();
 	private JMenuItem newTaskItem1 = new JMenuItem(taskLongCour);
 	private JMenuItem newTaskItem2 = new JMenuItem(taskPonctuelle);
-
 	private JScrollPane sc_pan;
 	private JList<Task> taskList;
 	private JPanel taskDesc = new JPanel();
@@ -76,25 +75,24 @@ public class DisplayManager extends JFrame{
 	private JButton modifer = new JButton("Modifier");
 	private JButton cancel = new JButton("Annuler");
 	private JButton delete = new JButton("Supprimer");
-	private JButton finish = new JButton("Terminer");
+	private JButton finish = new JButton("Terminer la tache");
 
 	private JTextField percent = new JTextField("");
 	private JProgressBar progressBar = new JProgressBar();
 	private JDateChooser dateChooser = new JDateChooser();
-	
+
 	private JPanel b_progressBar = new JPanel();
 	private JPanel b_finishButton = new JPanel();
 
 	public DisplayManager(Controler controler,Manager manager){
 		this.manager = manager;
 		this.controler = controler;
-		manager.setDisplayManager(this);
 		setLocationRelativeTo(null);
 		setTitle("Task Manager");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowClosing());
 
-		init();
 		pack();
 	}
 
@@ -108,6 +106,7 @@ public class DisplayManager extends JFrame{
 
 		sc_pan = new JScrollPane(taskList);
 		taskList.addListSelectionListener(taskListListener);
+
 		sc_pan.setPreferredSize(new Dimension(200,400));
 		add(sc_pan,"West");
 		initMenuBar();
@@ -121,7 +120,7 @@ public class DisplayManager extends JFrame{
 		newTaskItem2.addActionListener(mbListener);
 		menuNewTask.add(newTaskItem1);
 		menuNewTask.add(newTaskItem2);
-		
+
 		sort1.addItemListener(new SortListener());
 		sort2.addItemListener(new SortListener());
 		sort3.addItemListener(new SortListener());
@@ -134,10 +133,15 @@ public class DisplayManager extends JFrame{
 		listSort.add(sort2);
 		listSort.add(sort3);
 		sort1.setSelected(true);
+
 		menuCategorie.addActionListener(new categorieMenuBarListener());
+		menuBilan.addActionListener(new bilanMenuBarListener());
+
 		menuEdit.add(menuCategorie);
 		menuEdit.add(listSort);
-		
+		menuEdit.addSeparator();
+		menuEdit.add(menuBilan);
+
 		bar.add(menuNewTask);
 		bar.add(menuEdit);
 		add(bar,"North");
@@ -189,17 +193,17 @@ public class DisplayManager extends JFrame{
 		categorie.setEnabled(false);
 		b_cate.add(new JLabel("Categorie  "));
 		b_cate.add(categorie);
-		
+
 		/*Initialisation importance */
-		
+
 		importance = new JComboBox<Importance>(Importance.values());
-		
+
 		importance.setMaximumSize(new Dimension(150,20));
 		importance.setEnabled(false);
-		
+
 		b_importance.add(new JLabel("Importance "));
 		b_importance.add(importance);
-		
+
 		/*Initialisation Date Picker */		
 
 
@@ -214,7 +218,7 @@ public class DisplayManager extends JFrame{
 		percent.setMaximumSize(new Dimension(30,20));
 		percent.setPreferredSize(new Dimension(30,20));
 		percent.setEnabled(false);
-		
+
 		percent.addKeyListener(new percentKeyListener());
 		progressBar.setStringPainted(true);
 		progressBar.setMinimum(0);
@@ -224,11 +228,11 @@ public class DisplayManager extends JFrame{
 		b_progressBar.add(progressBar);
 		b_progressBar.setVisible(false);
 
-		/* boutton terminé tache ponctuelle */
-		
+		/* boutton terminï¿½ tache ponctuelle */
+
 		b_finishButton.add(finish);
 		b_finishButton.setVisible(false);
-		
+
 		/* Ajout des box */
 		info.add(b_title);
 		info.add(Box.createRigidArea(new Dimension(0,20)));
@@ -259,65 +263,82 @@ public class DisplayManager extends JFrame{
 		add(taskDesc,"Center");
 	}
 
+	/**
+	 * @result update pour les tris
+	 */
 	public void updateTaskList(){
 		if(sort3.isSelected()){
-			updateTaskDesc(false);
+			updateMainFrame(false);
 			taskList.setListData(manager.getListTaskSort3());
 		}else{
-			updateTaskDesc(false);
+			updateMainFrame(false);
 			taskList.setListData(manager.getListTask());
 		}
 		taskList.updateUI();
 	}
 
 
-
-	public void updateTaskDesc(boolean isVisible){
+	/**
+	 * update jlist et taskDesc
+	 * @param isVisible informe de la visibilitÃ© du panel task desc
+	 */
+	public void updateMainFrame(boolean isVisible){
 		taskDesc.setVisible(isVisible);
 		if(isVisible){
-			name.setText(taskList.getSelectedValue().toString());
+			name.setText(taskList.getSelectedValue().getName());
 			categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
 			importance.setSelectedIndex(taskList.getSelectedValue().getImportance());
 			dateChooser.setDate(taskList.getSelectedValue().getDeadline());
 			b_progressBar.setVisible(false);
 			b_finishButton.setVisible(false);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			if(taskList.getSelectedValue().isLongCourt()){
 				percent.setText(Integer.toString(((TaskLongCours)taskList.getSelectedValue()).getPercent()));
 				progressBar.setValue(((TaskLongCours)taskList.getSelectedValue()).getPercent());
 				b_progressBar.setVisible(true);
-				title.setText(taskLongCour);
+				title.setText(taskLongCour+" ("+sdf.format(taskList.getSelectedValue().getBegin())+")");
 				progressBar.updateUI();
 			}else{
-				title.setText(taskPonctuelle);
+				title.setText(taskPonctuelle+" ("+sdf.format(taskList.getSelectedValue().getBegin())+")");
 				b_finishButton.setVisible(true);
 			}
-			taskList.updateUI();
 		}else{
 			taskList.clearSelection();
 		}
+		taskList.updateUI();
 		taskDesc.revalidate();
 	}
-
+	/**
+	 * Active ou désactive les boutons si on souhaite modifier une tache
+	 * @param b défini le status des bouton (true on modifie la tache / false on ne peut pas modifier la tache
+	 */
 	public void switchButtonTaskDesc(boolean b){
 		valide.setEnabled(b);
 		cancel.setEnabled(b);
-		modifer.setEnabled(!b);
 		name.setEnabled(b);
 		importance.setEnabled(b);
 		categorie.setEnabled(b);
 		dateChooser.setEnabled(b);
 		percent.setEnabled(b);
+
+		finish.setEnabled(!b);
+		delete.setEnabled(!b);
+		modifer.setEnabled(!b);
+		menuNewTask.setEnabled(!b);
+		menuEdit.setEnabled(!b);
 	}
 
 	/*Dï¿½sactive le menu nouvelle tache */
-	public void disableMenuNewTask(){
+	public void disableMenuBar(){
 		menuNewTask.setEnabled(false);
+		menuEdit.setEnabled(false);
 		menuNewTask.validate();
 	}
 
 	/*Activer le menu nouvelle tache */
-	public void activateMenuNewTask(){
+	public void activeMenuBar(){
 		menuNewTask.setEnabled(true);
+		menuEdit.setEnabled(true);
 		menuNewTask.validate();
 	}
 
@@ -334,19 +355,27 @@ public class DisplayManager extends JFrame{
 			controler.newDisplayCategorieManager();
 		}
 	}
-	
+
+	public class bilanMenuBarListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controler.newDisplayBilanManager();
+		}
+	}
+
 	public class percentKeyListener implements KeyListener{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -360,27 +389,14 @@ public class DisplayManager extends JFrame{
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			if(taskList.getSelectedValue() != null){
-				taskDesc.setVisible(true);
-				name.setText(taskList.getSelectedValue().toString());
-				categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
-				importance.setSelectedIndex(taskList.getSelectedValue().getImportance());
-				dateChooser.setDate(taskList.getSelectedValue().getDeadline());
-				b_progressBar.setVisible(false);
-				b_finishButton.setVisible(false);
-				if(taskList.getSelectedValue().isLongCourt()){
-					percent.setText(Integer.toString(((TaskLongCours)taskList.getSelectedValue()).getPercent()));
-					progressBar.setValue(((TaskLongCours)taskList.getSelectedValue()).getPercent());
-					progressBar.updateUI();
-					b_progressBar.setVisible(true);
-					title.setText(taskLongCour);
-				}else{
-					title.setText(taskPonctuelle);
-					b_finishButton.setVisible(true);
-				}
+				updateMainFrame(true);
+			}
+			else{
+				updateMainFrame(false);
 			}
 		}
 	}
-	
+
 	/*Task Desc Bouttons Listener*/
 	public class BoutonListener implements ActionListener{
 		@Override
@@ -396,6 +412,16 @@ public class DisplayManager extends JFrame{
 			controler.sortControler(((JCheckBoxMenuItem)e.getItem()).getText());
 		}
 	}
+	
+	public class WindowClosing extends WindowAdapter{
+		@Override
+		public void windowClosing(WindowEvent e) {
+			controler.displayManagerClosing();
+		}
+
+	}
+	
+	
 	public String get_Name() {
 		return name.getText();
 	}
@@ -432,6 +458,8 @@ public class DisplayManager extends JFrame{
 		case 1 :
 			JOptionPane.showMessageDialog(new JFrame(),"Vous venez de terminer votre tache celle-ci a ï¿½tï¿½ transfï¿½rï¿½ dans le bilan.");	
 			break;
+		case 2 :
+			JOptionPane.showMessageDialog(new JFrame(),"La date de fin ne peut pas Ãªtre anterieur Ã  la date du jour celle-ci n'a pas Ã©tait modifÃ©");
 		}
 	}
 	public String getSelectedSort(){
@@ -447,5 +475,18 @@ public class DisplayManager extends JFrame{
 	public int getImportance(){
 		return importance.getSelectedIndex();
 	}
+
+	public JComboBox<Categorie> getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(JComboBox<Categorie> categorie) {
+		this.categorie = categorie;
+	}
+
+	public Date getDeadLine() {
+		return dateChooser.getDate();
+	}
+
 
 }

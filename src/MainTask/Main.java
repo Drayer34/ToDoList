@@ -6,8 +6,10 @@ import Model.Manager;
 
 public class Main {
 	public static void main(String args[])
-	{ 
-		Manager m = new Manager();
+	{
+		Manager m;
+		if((m = SerializationManager.restoreManager()) == null)
+			m = new Manager();
 		new Controler(m);
 	}
 }

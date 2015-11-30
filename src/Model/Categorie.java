@@ -1,6 +1,9 @@
 package Model;
 
-public class Categorie {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Categorie implements Serializable{
 
 	private String catName;
 	

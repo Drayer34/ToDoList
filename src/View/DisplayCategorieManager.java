@@ -3,6 +3,8 @@ package View;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,6 +24,8 @@ public class DisplayCategorieManager extends JFrame{
 
 	private Controler controler;
 	private Manager manager;
+	private DisplayManager displayManagaer;
+	
 	private JComboBox<Categorie> categorie;
 	private JTextField name = new JTextField();
 	private JTextField reName = new JTextField();
@@ -35,18 +39,17 @@ public class DisplayCategorieManager extends JFrame{
 	private JButton modifer = new JButton("Modifier");//modifier une categorie
 	private JButton addCategorie = new JButton("Ajouter");//Ajouter une categorie
 
-	public DisplayCategorieManager(Controler controler, Manager manager){
+	public DisplayCategorieManager(Controler controler, Manager manager, DisplayManager displayManagaer){
 		this.controler = controler;
 		this.manager = manager;
+		this.displayManagaer = displayManagaer;
 
-		/*On fait connaitre au manager l'existance du display CategorieManager */
-
-		manager.setDisplayCategorieManager(this);
 		setTitle("Option categorie");
 		setLocationRelativeTo(null);
 
 		this.setVisible(true);
 		this.setMinimumSize(new Dimension(250,250));
+		this.addWindowListener(new WindowClosing());
 		init();
 		pack();
 	}
@@ -107,20 +110,36 @@ public class DisplayCategorieManager extends JFrame{
 		}
 	}
 
+	
+	public class WindowClosing extends WindowAdapter{
+		@Override
+		public void windowClosing(WindowEvent e) {
+			
+			controler.updateCategorieManager("exit");
+		}
+
+	}
+	
 	public void updateRemoveTask(){
 		categorie.setSelectedIndex(0);
+		displayManagaer.getCategorie().setSelectedIndex(0);
 	}
 	
 	public void updateComboBox(){
 		categorie.updateUI();
+		displayManagaer.getCategorie().updateUI();
 	}
 	
-	/*réinitialise le text field après l'ajout */
+	/*rï¿½initialise le text field aprï¿½s l'ajout */
 	public void updateNameAfterAdd(){
 		name.setText("");
 	}
 	public void updateReName(){
 		reName.setText(categorie.getSelectedItem().toString());
+	}
+	
+	public void close(){
+		this.dispose();
 	}
 	
 	public String get_Name(){
@@ -145,6 +164,6 @@ public class DisplayCategorieManager extends JFrame{
 	}
 
 	public void printError() {
-		JOptionPane.showMessageDialog(new JFrame(),"Il éxiste une categorie portant déjâ ce nom !");		
+		JOptionPane.showMessageDialog(new JFrame(),"Il ï¿½xiste une categorie portant dï¿½jï¿½ ce nom !");		
 	}
 }
