@@ -21,6 +21,12 @@ public class Bilan {
 		this.savTaskList = savTaskList;
 	}
 
+	/**
+	 * Génère le bilan, celon la date de début et de fin.
+	 * Créer le vecteur de tache et fait les pourcentages.
+	 * @param debut 
+	 * @param fin
+	 */
 	public void generateBilan (Date debut, Date fin){
 		//Date today = new Date();
 		if(debut == null && fin == null){

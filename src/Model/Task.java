@@ -38,6 +38,10 @@ public abstract class Task implements Comparable<Task>, Serializable{
 		this.importance = importance;
 	}
 
+	/**
+	 * Savoir si une tâche est retard.
+	 * @return boolean : vrai si la tâche est en retard, faux sinon.
+	 */
 	public boolean updateIsLate(){
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 		calendar.setTime(new Date());
@@ -50,7 +54,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 		return false;
 	}
 	/**
-	 * update is end
+	 * Pour une tache ponctuelle : arrête la tâche, pour une tâche long cours : regarde si la tâche est finie via les pourcentage.
 	 */
 	public abstract void end();
 	

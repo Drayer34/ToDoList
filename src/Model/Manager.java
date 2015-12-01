@@ -9,7 +9,7 @@ import java.util.Vector;
 public class Manager implements Serializable {
 
 
-	
+
 	private Vector<Task> listTask;
 	private Vector<Task> listTaskSort3;
 	private Vector<Categorie> listCategorie;
@@ -24,6 +24,15 @@ public class Manager implements Serializable {
 		listCategorie.add(new Categorie("Personnel"));
 	}
 
+	/**
+	 * Ajout d'une tâche par passage des valeur de la tâche, puis appel au constructeur en fonction de son type.
+	 * La tâche n'as pas de date de début spécifiée.
+	 * @param end
+	 * @param name
+	 * @param categorie
+	 * @param importance
+	 * @param taskType
+	 */
 	public void addTask(Date end, String name, Categorie categorie,int importance,TaskType taskType ){
 		if(taskType == TaskType.TacheLongCour){
 			TaskLongCours t = new TaskLongCours(end,name,categorie, importance);
@@ -36,7 +45,17 @@ public class Manager implements Serializable {
 			savTaskList.add(t);
 		}
 	}
-	
+
+	/**
+	 * Ajout d'une tâche par passage des valeur de la tâche, puis appel au constructeur en fonction de son type.
+	 * La tâche as une de date de début spécifiée.
+	 * @param end
+	 * @param begin
+	 * @param name
+	 * @param categorie
+	 * @param importance
+	 * @param taskType
+	 */
 	public void addTask(Date end,Date begin, String name, Categorie categorie,int importance,TaskType taskType ){
 		if(taskType == TaskType.TacheLongCour){
 			TaskLongCours t = new TaskLongCours(end,name,categorie, importance,begin);
@@ -44,7 +63,11 @@ public class Manager implements Serializable {
 			savTaskList.add(t);
 		}
 	}
-	
+
+	/**
+	 * On supprime la tâche des deux vecteurs de tache, listTask et savTaskList.
+	 * @param selectedTask
+	 */
 	public void removeTask(Task selectedTask) {
 		listTask.remove(selectedTask);
 		savTaskList.remove(selectedTask);
@@ -62,9 +85,18 @@ public class Manager implements Serializable {
 		}
 	}
 
+	/**
+	 * Ajout d'une catégorie aux vecteur de catégories.
+	 * @param name
+	 */
 	public void addCategorie(String name){
 		listCategorie.add(new Categorie(name));
 	}
+
+	/**
+	 * Supression d'une catégorie aux vecteur de catégories.
+	 * @param c
+	 */
 	public void removeCategorie(Categorie c) {
 		for(Task t : listTask){
 			if(t.getCategorie() == c){
@@ -74,14 +106,29 @@ public class Manager implements Serializable {
 		listCategorie.remove(c);
 	}
 
+	/**
+	 * Renomage d'une catégorie passé en paramètre.
+	 * @param c
+	 * @param name
+	 */
 	public void renameCategorie(Categorie c, String name){
 		c.setCatName(name);
 	}
 
-
+	/**
+	 * Renomage d'une tâches passé en paramètre.
+	 * @param t
+	 * @param name
+	 */
 	public void renameTask(Task t, String name){
 		t.setName(name);
 	}
+	
+	/**
+	 * CHangement du pourcentage d'une tâche au long cours.
+	 * @param t
+	 * @param percent
+	 */
 	public void percentChange(TaskLongCours t, int percent){
 		t.setPercent(percent);
 		t.end();
@@ -90,12 +137,30 @@ public class Manager implements Serializable {
 			endTask(t);
 		}
 	}
+	
+	/**
+	 * Changement de la catégorie d'une tâche.
+	 * @param t
+	 * @param categorie
+	 */
 	public void changeTaskCategorie(Task t, Categorie categorie){
 		t.setCategorie(categorie);;
 	}
+	
+	/**
+	 * Changement de l'importance d'une tâche.
+	 * @param t
+	 * @param categorie
+	 */
 	public void changeImportance(Task t, int importance){
 		t.setImportance(importance);
 	}
+	
+	/**
+	 * Changement de la deadline d'une tâche.
+	 * @param t
+	 * @param categorie
+	 */
 	public void changeTaskDate(Task t,Date end){
 		t.setDeadline(end);
 		t.updateIsLate();
@@ -119,14 +184,17 @@ public class Manager implements Serializable {
 	public void setSavTaskList(Vector<Task> savTaskList) {
 		this.savTaskList = savTaskList;
 	}
-	
+
 	public void sortTaskList(){
 		Collections.sort(listTask);
 	}
 	public void sortTaskListPartialDeadLine(){
 		Collections.sort(listTask, new CompareTaskDate());
 	}
-	//Tri la liste par point (imortance) mais ne prend pas 1-Important 3-moyen  5-faible
+	
+	/**
+	 * 	Tri la liste par point (imortance) mais ne prend pas 1-Important 3-moyen  5-faible
+	 */
 	public void sortTaskListImportance(){
 		Collections.sort(listTask, new CompareTaskImportance());
 		Vector<Task> importante = new Vector<Task>();

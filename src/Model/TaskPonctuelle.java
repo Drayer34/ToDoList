@@ -13,6 +13,9 @@ public class TaskPonctuelle extends Task implements Serializable{
 		super.setColorText(colorText);
 	}
 
+	/**
+	 * Pour une tache ponctuelle : arrête la tâche.
+	 */
 	public void end(){
 		super.setIs_end(true);
 	}

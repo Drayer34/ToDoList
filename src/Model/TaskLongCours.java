@@ -22,6 +22,10 @@ public class TaskLongCours extends Task implements Serializable{
 		super.setColorText(colorText);
 	}
 
+	/**
+	 * Savoir si une tâche long cours est retard.
+	 * @return boolean : vrai si la tâche est en retard, faux sinon.
+	 */
 	public boolean updateIsLate(){
 		if(super.updateIsLate()){
 			return true;
@@ -42,6 +46,9 @@ public class TaskLongCours extends Task implements Serializable{
 
 	}
 
+	/**
+	 * Pour une tâche long cours : regarde si la tâche est finie via les pourcentage.
+	 */
 	public void end() {
 		if(percent == 100){
 			super.setIs_end(true);
