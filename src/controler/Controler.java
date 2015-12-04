@@ -16,25 +16,54 @@ import View.DisplayCategorieManager;
 import View.DisplayManager;
 import View.DisplayNewTask;
 
+/**
+ * Classe pour implémenter le controler danc le model MVC 
+ * @author Antoine Laurent et Anthony Brunel
+ *
+ */
 public class Controler {
 
+	/**
+	 * une instance de Manager
+	 */
 	private Manager manager;
+	/**
+	 * une instance de bilan
+	 */
 	private Bilan bilan;
+	/**
+	 * une instance du display principale
+	 */
 	private DisplayManager displayManager;
+	/**
+	 * une instance du display de création de nouvelle tâche
+	 */
 	private DisplayNewTask displayNewTask;
+	/**
+	 * une instance du display de créattion/modification des catégories
+	 */
 	private DisplayCategorieManager displayCategorieManager;
+	/**
+	 * une instance du display du bilan
+	 */
 	private DisplayBilanManager displayBilanManager;
 
+	/**
+	 * Constructeur du controler
+	 * @param manager l'instance du manager sur lequel on opère
+	 */
 	public Controler(Manager manager){
 		//Initialiser les vue das le controler
 		this.manager = manager;
 		this.displayManager = new DisplayManager(this, manager);
 		displayManager.init();
-		displayManager.updateTaskList();
 	}
 
-	/* Cr�e une fenetre nouvelle tache */
 
+	/**
+	 * Créer une fenêtre nouvelle tâche
+	 * @param type le type de tâche que l'on créer
+	 */
 	public void newTask(String type){
 		if(type.compareTo(displayManager.getTaskLongCour()) == 0){
 			displayNewTask = new DisplayNewTask(this,manager,TaskType.TacheLongCour);
@@ -46,8 +75,9 @@ public class Controler {
 		displayManager.disableMenuBar();
 	}
 
-	/*
+	/**
 	 * Fonction de controlle sur les boutton du panel task description
+	 * @param b le texte du bouton sur lequel on a cliqué
 	 */
 	public void taskModifer(String b) {
 		if (b.compareTo("Modifier") == 0){
@@ -67,7 +97,7 @@ public class Controler {
 				manager.changeTaskDate(t, displayManager.getDeadLine());
 			}
 			if(t.isLongCourt()){
-				if(displayManager.getPercent() == 100){
+				if(displayManager.getPercent() >= 100){
 					displayManager.showMessage(1);
 				}
 				manager.percentChange((TaskLongCours) t,displayManager.getPercent());
@@ -82,17 +112,22 @@ public class Controler {
 			displayManager.updateMainFrame(true);
 		}else if(b.compareTo("Supprimer") == 0){
 			manager.removeTask(displayManager.getSelectedTask());
-			displayManager.updateTaskList();
+			displayManager.updateSortTaskList();
 			displayManager.updateMainFrame(false);		
-		}else if(b.compareTo("Terminer la tache") == 0){
+		}else if(b.compareTo("Tâche finie") == 0){
 			manager.endTask(displayManager.getSelectedTask());
-			displayManager.updateTaskList();
+			displayManager.updateSortTaskList();
 			displayManager.updateMainFrame(false);
 		}
 	}
 
-	/* valider ou cancel la classe DisplayNewTask*/
-
+	/**
+	 *  Conditions sur la classe DisplayNewTask
+	 *  Si on annule ou ferme la fenêtre sans valider alors on remet la bar des menus valide et on ferme la fenetre
+	 *  Condition sur les dates
+	 * @param buttons le nom du bouttons sur lequel on a cliqué
+	 * 
+	 */
 	public void newTaskButtons(String buttons){
 		/*              Controle des dates          */
 		GregorianCalendar calendar = new java.util.GregorianCalendar(); 
@@ -104,12 +139,16 @@ public class Controler {
 		}
 		else if(displayNewTask.getEndDate() == null){
 			displayNewTask.printErrorDate(1);
+		}else if(displayNewTask.getTaskType() == TaskType.TacheLongCour && displayNewTask.getBeginDate() == null){
+			displayNewTask.printErrorDate(1);
 		}
 		else if(displayNewTask.getEndDate().before(calendar.getTime())){
 			displayNewTask.printErrorDate(2);
 		}
 		else if(displayNewTask.getBeginDate() != null && displayNewTask.getBeginDate().after(displayNewTask.getEndDate())){
 			displayNewTask.printErrorDate(3);
+		}else if(displayNewTask.get_Name().compareTo("") == 0){
+			displayNewTask.printErrorDate(4);
 		}
 		else if(buttons.compareTo("Valider") == 0 ){
 			if(displayNewTask.getBeginDate() == null)
@@ -123,6 +162,10 @@ public class Controler {
 		}
 	}
 
+	/**
+	 * On effectu les tris des tâches
+	 * @param button le tri est demandé
+	 */
 	public void sortControler(String button){
 		if(button.compareTo("Tri 1") == 0){
 			manager.sortTaskList();
@@ -132,23 +175,30 @@ public class Controler {
 			manager.sortTaskListImportance();
 			displayManager.updateMainFrame(false);
 		}
-		displayManager.updateTaskList();
+		displayManager.updateSortTaskList();
 	}
 
-
+	/**
+	 * Lors de la fermeture de la fenêtre, on souvegarde les données.
+	 */
 	public void displayManagerClosing() {
 		SerializationManager.saveManager(manager);
 	}
+	
 	/*           FONCTION POUR LE DISPLAY CATEGORIE MANAGER               */
 
-
+	/**
+	 * on définie la valeure de displayCatégorieManager
+	 */
 	public void newDisplayCategorieManager(){
 		displayCategorieManager = new DisplayCategorieManager(this,manager,displayManager);
 		displayManager.disableMenuBar();
 	}
 
-
-
+	/**
+	 * gère les boutons de la fenêtre catégorie
+	 * @param buttonInfo le texte du bouton sur lequel on appuie
+	 */
 	public void updateCategorieManager(String buttonInfo) {
 		if(buttonInfo.compareTo("Ajouter") == 0 && displayCategorieManager.get_Name() != null){
 			for(Categorie c : manager.getListCategorie()){
@@ -178,8 +228,9 @@ public class Controler {
 		}
 	}
 
-	/*Update bouttons task Description */
-
+	/**
+	 * Update la comboList de task description
+	 */
 	public void updateEditW(){
 		displayCategorieManager.updateReName();
 		if(displayCategorieManager.getSelectedCategorieIndex() == 0){
@@ -193,11 +244,17 @@ public class Controler {
 
 	/* Bilan */
 
+	/**
+	 * on définie la varibale bilan
+	 */
 	public void newDisplayBilanManager() {
 		bilan = new Bilan(manager.getSavTaskList());
 		displayBilanManager = new DisplayBilanManager(this,bilan);
 	}
 
+	/**
+	 * génération du bilan
+	 */
 	public void generateBilan() {
 		if(displayBilanManager.getDateBegin() == null || displayBilanManager.getDateEnd() == null){
 			displayBilanManager.showMessage(1);
