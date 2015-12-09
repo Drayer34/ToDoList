@@ -476,7 +476,9 @@ public class DisplayManager extends JFrame{
 	}
 
 	public int getPercent() {
-		return Integer.parseInt(percent.getText());
+		if(percent.getText().compareTo("") != 0)
+			return Integer.parseInt(percent.getText());
+		return progressBar.getValue();
 	}
 
 	public void setPercent(JTextField percent) {
@@ -527,7 +529,7 @@ public class DisplayManager extends JFrame{
 			date.set(Calendar.MILLISECOND, 999);
 			return date.getTime();
 		}
-		return null;
+		return taskList.getSelectedValue().getDeadline();
 	}
 
 }

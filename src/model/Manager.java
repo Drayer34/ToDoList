@@ -44,7 +44,7 @@ public class Manager implements Serializable {
 	}
 
 	/**
-	 * Ajoute une tâche à listeTask et savTaskList
+	 * Ajoute une tâche � listeTask et savTaskList
 	 * @param t tâche
 	 */
 	public void addTask(Task t){

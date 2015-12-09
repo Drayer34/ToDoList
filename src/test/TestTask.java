@@ -96,7 +96,7 @@ public class TestTask {
 
 	@Test
 	/**
-	 * Comme la tache 1 est une tache au long cours sans date de dÃ©but c'est le constructeur qui l'initialise
+	 * Comme la tache 1 est une tache au long cours sans date de début c'est le constructeur qui l'initialise
 	 * Donc on compare le temps sans les milliseconde.
 	 */
 	public void testNextPartialDeadline(){
