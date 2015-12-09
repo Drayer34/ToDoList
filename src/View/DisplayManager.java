@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -36,13 +36,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.Categorie;
+import model.Importance;
+import model.Manager;
+import model.Task;
+import model.TaskLongCours;
+
 import com.toedter.calendar.JDateChooser;
 
-import Model.Categorie;
-import Model.Importance;
-import Model.Manager;
-import Model.Task;
-import Model.TaskLongCours;
 import controler.Controler;
 
 @SuppressWarnings("serial")
@@ -109,7 +110,7 @@ public class DisplayManager extends JFrame{
 	 * Initialise la frame
 	 */
 	public void init(){
-		setMinimumSize(new Dimension(600,400));
+		setMinimumSize(new Dimension(650,400));
 		TaskListListener taskListListener = new TaskListListener();
 
 		taskDesc.setLayout(new BorderLayout());
@@ -124,7 +125,7 @@ public class DisplayManager extends JFrame{
 		sc_pan.setPreferredSize(new Dimension(250,400));
 		add(sc_pan,"West");
 
-		refresh();
+		refreshTaskList();
 		initMenuBar();
 		initTaskDesc();
 		
@@ -193,7 +194,7 @@ public class DisplayManager extends JFrame{
 
 
 		info.setPreferredSize(new Dimension(300,350));
-		buttons.setMaximumSize(new Dimension(300,100));
+		buttons.setMaximumSize(new Dimension(350,100));
 
 
 		info.setLayout(new BoxLayout(info,BoxLayout.PAGE_AXIS));
@@ -303,8 +304,8 @@ public class DisplayManager extends JFrame{
 		taskList.revalidate();
 	}
 	
-	public void refresh(){
-		revalidate();
+	public void refreshTaskList(){
+		taskList.updateUI();
 	}
 
 
@@ -317,7 +318,7 @@ public class DisplayManager extends JFrame{
 		if(isVisible){
 			name.setText(taskList.getSelectedValue().getName());
 			categorie.setSelectedItem(taskList.getSelectedValue().getCategorie());
-			importance.setSelectedIndex(taskList.getSelectedValue().getImportance());
+			importance.setSelectedItem(taskList.getSelectedValue().getImportance());
 			dateChooser.setDate(taskList.getSelectedValue().getDeadline());
 			b_progressBar.setVisible(false);
 			b_finishButton.setVisible(false);
@@ -327,7 +328,7 @@ public class DisplayManager extends JFrame{
 				progressBar.setValue(((TaskLongCours)taskList.getSelectedValue()).getPercent());
 				b_progressBar.setVisible(true);
 				title.setText(taskLongCour+" ("+sdf.format(taskList.getSelectedValue().getBegin())+")");
-				progressBar.updateUI();
+				progressBar.revalidate();
 			}else{
 				title.setText(taskPonctuelle+" ("+sdf.format(taskList.getSelectedValue().getBegin())+")");
 				b_finishButton.setVisible(true);
@@ -335,6 +336,7 @@ public class DisplayManager extends JFrame{
 		}else{
 			taskList.clearSelection();
 		}
+		taskList.revalidate();
 		taskDesc.revalidate();
 	}
 	
@@ -503,8 +505,8 @@ public class DisplayManager extends JFrame{
 		}
 		return "Default";
 	}
-	public int getImportance(){
-		return importance.getSelectedIndex();
+	public Importance getImportance(){
+		return (Importance) importance.getSelectedItem();
 	}
 
 	public JComboBox<Categorie> getCategorie() {

@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.Comparator;
 /**
@@ -13,6 +13,7 @@ public class CompareTaskImportance implements Comparator<Task>{
 	 * La méthode de comparaison
 	 */
 	public int compare(Task o1, Task o2) {
-		return o1.getImportance() - o2.getImportance();
+		
+		return o1.getImportance().ordinal() - o2.getImportance().ordinal();
 	}
 }

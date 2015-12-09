@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.Date;
 import java.util.Vector;
@@ -14,7 +14,7 @@ public class Bilan {
 	 * Le poucentage de taches finies dans la période.
 	 */
 	private double perctOk;
-	
+
 	/**
 	 * Le pourcentage de tâches en retard sur la période
 	 */
@@ -52,12 +52,13 @@ public class Bilan {
 	 * @param fin date de fin
 	 */
 	public void generateBilan (Date debut, Date fin){
-		//Date today = new Date();
-		if(debut == null && fin == null){
-			System.out.println("Date non initialis�e");
-			return;
-		}
 
+		if(debut == null && fin == null){
+			throw new IllegalArgumentException("Date non initialis�e");
+		}
+		if(debut.after(fin)){
+			throw new IllegalArgumentException("Date de fin > Date de d�but");
+		}
 		bilanPeriod.clear();
 		int cptEnd=0;
 		int cptLate=0;
@@ -65,30 +66,28 @@ public class Bilan {
 		int total=0;
 
 		for(Task t : savTaskList){
-			if (t.getBegin().getTime() >= debut.getTime()){
-				if (t.getDeadline().getTime()<=fin.getTime())
-					if (!t.getIs_end()){
-						bilanPeriod.add(t);
-						cptCurt++;
-					}
-					else {
-						cptEnd++;
-					}
+			if (t.getDeadline().getTime()<=fin.getTime() && t.getDeadline().getTime() >= debut.getTime()){
+				if (!t.getIs_end()){
+					t.setColorText("\"#01DF01\"");
+					cptCurt++;
+				}
+				else {
+					t.setColorText("\"#190707\"");
+					cptEnd++;
+				}
 				if (t.updateIsLate()){
 					cptLate++;
+					t.setColorText("\"#DF0101\"");
 				}
+				bilanPeriod.add(t);
+				total++;
 			}
-			total++;
 		}
-		System.out.println(savTaskList);
-		System.out.println(total);
 		if(total > 0){
 			this.perctCurrent = (double)cptCurt/(double)total *100;
 			this.perctLate = (double)cptLate/(double)total *100;
 			this.perctOk = (double)cptEnd/(double)total *100;
 		}
-
-
 	}
 
 	/**
@@ -161,6 +160,6 @@ public class Bilan {
 		this.savTaskList = savTaskList;
 	}
 
-	
+
 
 }

@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Enumération pour les types de tâches

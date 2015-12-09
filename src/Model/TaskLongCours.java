@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -29,8 +29,9 @@ public class TaskLongCours extends Task implements Serializable{
 	 * @param categorie la catégorie
 	 * @param importance l'importance
 	 */
-	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance) {
+	public TaskLongCours(Date deadline, String name, Categorie categorie, Importance importance) throws IllegalArgumentException{
 		super(deadline, name, categorie, importance);
+
 		super.setColorText(colorText);
 	}
 
@@ -42,8 +43,8 @@ public class TaskLongCours extends Task implements Serializable{
 	 * @param importance l'importance
 	 * @param begin la date de début
 	 */
-	public TaskLongCours(Date deadline, String name, Categorie categorie, int importance, Date begin) {
-		super(deadline, name, categorie, importance, begin);
+	public TaskLongCours(Date begin,Date deadline, String name, Categorie categorie, Importance importance) {
+		super(begin, deadline, name, categorie, importance);
 		super.setColorText(colorText);
 	}
 
@@ -93,6 +94,8 @@ public class TaskLongCours extends Task implements Serializable{
 	 */
 	public void setPercent(int percent) {
 		this.percent = percent;
+		end();
+		updateIsLate();
 	}
 
 	/**
@@ -106,26 +109,14 @@ public class TaskLongCours extends Task implements Serializable{
 
 		if(percent <= 25){
 			calendar.add(Calendar.HOUR, (int) par4);
-			calendar.set(Calendar.HOUR_OF_DAY, 23);
-			calendar.set(Calendar.MINUTE, 59);
-			calendar.set(Calendar.SECOND, 59);
-			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
 		else if(percent <= 50){
 			calendar.add(Calendar.HOUR, (int) par4*2);
-			calendar.set(Calendar.HOUR_OF_DAY, 23);
-			calendar.set(Calendar.MINUTE, 59);
-			calendar.set(Calendar.SECOND, 59);
-			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
 		else if(percent <= 75){
 			calendar.add(Calendar.HOUR, (int) par4*3);
-			calendar.set(Calendar.HOUR_OF_DAY, 23);
-			calendar.set(Calendar.MINUTE, 59);
-			calendar.set(Calendar.SECOND, 59);
-			calendar.set(Calendar.MILLISECOND, 999);
 			return calendar.getTime();
 		}
 		return super.getDeadline();

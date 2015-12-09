@@ -4,17 +4,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import MainTask.SerializationManager;
-import Model.Bilan;
-import Model.Categorie;
-import Model.Manager;
-import Model.Task;
-import Model.TaskLongCours;
-import Model.TaskType;
-import View.DisplayBilanManager;
-import View.DisplayCategorieManager;
-import View.DisplayManager;
-import View.DisplayNewTask;
+import main.SerializationManager;
+import model.Bilan;
+import model.Categorie;
+import model.Manager;
+import model.Task;
+import model.TaskLongCours;
+import model.TaskPonctuelle;
+import model.TaskType;
+import view.DisplayBilanManager;
+import view.DisplayCategorieManager;
+import view.DisplayManager;
+import view.DisplayNewTask;
 
 /**
  * Classe pour implémenter le controler danc le model MVC 
@@ -103,8 +104,10 @@ public class Controler {
 				manager.percentChange((TaskLongCours) t,displayManager.getPercent());
 			}
 			if(t.getIs_end()){
-				displayManager.updateMainFrame(false);		
+				displayManager.updateSortTaskList();
+				displayManager.updateMainFrame(false);	
 			}else{
+				displayManager.refreshTaskList();
 				displayManager.updateMainFrame(true);
 			}
 		}else if(b.compareTo("Annuler") == 0){
@@ -151,11 +154,17 @@ public class Controler {
 			displayNewTask.printErrorDate(4);
 		}
 		else if(buttons.compareTo("Valider") == 0 ){
-			if(displayNewTask.getBeginDate() == null)
-				manager.addTask(displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance(), displayNewTask.getTaskType());
-			else{
-				manager.addTask(displayNewTask.getEndDate(),displayNewTask.getBeginDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance(), displayNewTask.getTaskType());
+			Task t = null;
+			if(displayNewTask.getBeginDate() == null){
+				if(displayNewTask.getTaskType() == TaskType.TachePonctuelle){
+					t = new TaskPonctuelle(displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance());
+				}else if(displayNewTask.getTaskType() == TaskType.TacheLongCour){
+					t = new TaskLongCours(displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance());
+				}
+			}else{
+				t = new TaskLongCours(displayNewTask.getBeginDate(),displayNewTask.getEndDate(), displayNewTask.get_Name(), displayNewTask.getSelectedCategorie(),displayNewTask.getImportance());
 			}
+			manager.addTask(t);
 			displayNewTask.close();
 			displayManager.activeMenuBar();//bouton nouvelle tache menu bar
 			sortControler(displayManager.getSelectedSort());
@@ -167,11 +176,11 @@ public class Controler {
 	 * @param button le tri est demandé
 	 */
 	public void sortControler(String button){
-		if(button.compareTo("Tri 1") == 0){
+		if(button.compareTo("Tri simple") == 0){
 			manager.sortTaskList();
-		}else if(button.compareTo("Tri 2") == 0){
+		}else if(button.compareTo("Tri avancé") == 0){
 			manager.sortTaskListPartialDeadLine();
-		}else if(button.compareTo("Tri 3") == 0){
+		}else if(button.compareTo("Tri particulié") == 0){
 			manager.sortTaskListImportance();
 			displayManager.updateMainFrame(false);
 		}

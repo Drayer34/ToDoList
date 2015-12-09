@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Categorie;
+import model.Manager;
 import controler.Controler;
-import Model.Categorie;
-import Model.Manager;
 
 @SuppressWarnings("serial")
 public class DisplayCategorieManager extends JFrame{

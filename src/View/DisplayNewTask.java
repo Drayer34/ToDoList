@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,12 +20,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Categorie;
+import model.Importance;
+import model.Manager;
+import model.TaskType;
+
 import com.toedter.calendar.JDateChooser;
 
-import Model.Categorie;
-import Model.Importance;
-import Model.Manager;
-import Model.TaskType;
 import controler.Controler;
 
 @SuppressWarnings("serial")
@@ -202,8 +203,8 @@ public class DisplayNewTask extends JFrame{
 		}
 	}
 
-	public int getImportance() {
-		return importance.getSelectedIndex();
+	public Importance getImportance() {
+		return (Importance) importance.getSelectedItem();
 	}
 
 }

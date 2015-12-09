@@ -1,8 +1,8 @@
-package MainTask;
+package main;
 
 
+import model.Manager;
 import controler.Controler;
-import Model.Manager;
 
 public class Main {
 	public static void main(String args[])

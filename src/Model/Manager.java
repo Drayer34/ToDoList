@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -44,44 +44,14 @@ public class Manager implements Serializable {
 	}
 
 	/**
-	 * Ajout d'une tâche par passage des valeur de la t�che, puis appel au constructeur en fonction de son type.
-	 * La tâche n'as pas de date de d�but sp�cifi�e.
-	 * @param end date de fin de la tâche
-	 * @param name nom de la tâche
-	 * @param categorie catégorie de la tâche
-	 * @param importance importance de la tâche
-	 * @param taskType type de tâche : long cours ou pontuelle
+	 * Ajoute une tâche � listeTask et savTaskList
+	 * @param t tâche
 	 */
-	public void addTask(Date end, String name, Categorie categorie,int importance,TaskType taskType ){
-		if(taskType == TaskType.TacheLongCour){
-			TaskLongCours t = new TaskLongCours(end,name,categorie, importance);
+	public void addTask(Task t){
 			listTask.add(t);
-			savTaskList.add(t);
-		}
-		else if(taskType == TaskType.TachePonctuelle){
-			TaskPonctuelle t = new TaskPonctuelle(end,name,categorie, importance);
-			listTask.add(t);
-			savTaskList.add(t);
-		}
+			savTaskList.add(t);		
 	}
 
-	/**
-	 * Ajout d'une tâche par passage des valeur de la tâche, puis appel au constructeur en fonction de son type.
-	 * La tâche as une de date de début spécifiée.
-	 * @param end date de fin de la tâche
-	 * @param begin date de début de la tâches
-	 * @param name nom de la tâche
-	 * @param categorie catégorie de la tâche
-	 * @param importance importance de la tâche
-	 * @param taskType type de tâche : long cours ou pontuelle
-	 */
-	public void addTask(Date end,Date begin, String name, Categorie categorie,int importance,TaskType taskType ){
-		if(taskType == TaskType.TacheLongCour){
-			TaskLongCours t = new TaskLongCours(end,name,categorie, importance,begin);
-			listTask.add(t);
-			savTaskList.add(t);
-		}
-	}
 
 	/**
 	 * On supprime la tâche des deux vecteurs de tache, listTask et savTaskList.
@@ -149,8 +119,6 @@ public class Manager implements Serializable {
 	 */
 	public void percentChange(TaskLongCours t, int percent){
 		t.setPercent(percent);
-		t.end();
-		t.updateIsLate();
 		if(t.getIs_end()){
 			endTask(t);
 		}
@@ -170,7 +138,7 @@ public class Manager implements Serializable {
 	 * @param t la tâche que l'on modifie
 	 * @param importance l'importance souhaitée
 	 */
-	public void changeImportance(Task t, int importance){
+	public void changeImportance(Task t, Importance importance){
 		t.setImportance(importance);
 	}
 
@@ -207,7 +175,7 @@ public class Manager implements Serializable {
 	public Vector<Task> getListTaskSort3() {
 		return listTaskSort3;
 	}
-	
+
 	/**
 	 * Retoune la liste de tâches sauvegardées.
 	 * @return liste de tâches sauvegardées.
@@ -215,7 +183,7 @@ public class Manager implements Serializable {
 	public Vector<Task> getSavTaskList() {
 		return savTaskList;
 	}
-	
+
 	/**
 	 * Change la liste de tâches sauvegardées.
 	 * @param savTaskList nouvelle liste.
@@ -230,7 +198,7 @@ public class Manager implements Serializable {
 	public void sortTaskList(){
 		Collections.sort(listTask);
 	}
-	
+
 	/**
 	 * Tris la liste de tâches en fonctions de la prochaines deadline partielle.
 	 */
@@ -249,14 +217,14 @@ public class Manager implements Serializable {
 		listTaskSort3 = new Vector<Task>();
 
 		for(Task t : listTask){
-			switch(t.getImportance()){
-			case 0:	
+			switch(t.getImportance().ordinal()){
+			case 0: 
 				faible.add(t);
 				break;
-			case 1:	
+			case 1: 
 				moyen.add(t);
 				break;
-			case 2:	
+			case 2: 
 				importante.add(t);
 				break;
 			}

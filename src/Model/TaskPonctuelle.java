@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class TaskPonctuelle extends Task implements Serializable{
 	 * @param categorie la catégorie
 	 * @param importance l'importance
 	 */
-	public TaskPonctuelle(Date deadline, String name, Categorie categorie,int importance) {
+	public TaskPonctuelle(Date deadline, String name, Categorie categorie,Importance importance) {
 		super(deadline, name, categorie, importance);
 		super.setColorText(colorText);
 	}

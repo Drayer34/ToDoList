@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -15,10 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.Bilan;
+import model.Task;
+
 import com.toedter.calendar.JDateChooser;
 
-import Model.Bilan;
-import Model.Task;
 import controler.Controler;
 
 @SuppressWarnings("serial")
@@ -86,12 +87,10 @@ public class DisplayBilanManager extends JFrame{
 
 		percentPanel.setVisible(true);
 		taskPanel.setVisible(true);
-		percentPanel.revalidate();
-		taskPanel.revalidate();
+
 		revalidate();
-		
-		listTaskBilan.setListData(bilan.getBilanPeriod());
 		listTaskBilan.updateUI();
+		listTaskBilan.setListData(bilan.getBilanPeriod());
 		percentTaskCurrent.setText("Tâches courantes : "+Double.toString(bilan.getPerctCurrent())+"%");
 		percentTaskLate.setText("Tâches en retard : "+Double.toString(bilan.getPerctLate())+"%");
 		percentTaskEnd.setText("Tâches finies : "+Double.toString(bilan.getPerctOk())+"%");

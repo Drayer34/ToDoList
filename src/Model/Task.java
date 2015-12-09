@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -44,7 +44,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 	/**
 	 * l'importance
 	 */
-	private int importance;// 0 : faible / 1 : moyen / 2 : importante
+	private Importance importance;// 0 : faible / 1 : moyen / 2 : importante
 
 	/**
 	 * constructeur de t√¢che
@@ -53,10 +53,13 @@ public abstract class Task implements Comparable<Task>, Serializable{
 	 * @param categorie la cat√©gorie 
 	 * @param importance l'importance
 	 */
-	public Task(Date deadline, String name, Categorie categorie, int importance) {
+	public Task(Date deadline, String name, Categorie categorie, Importance importance) {
 		super();
 		this.begin = new Date(); 
 		setDeadline(deadline);
+		if(getDeadline().before(getBegin())){
+			throw new IllegalArgumentException("Date de fin strictement supperieur ‡ la date de dÈbut");
+		}
 		this.name = name;
 		this.categorie = categorie;
 		this.importance = importance;
@@ -70,10 +73,14 @@ public abstract class Task implements Comparable<Task>, Serializable{
 	 * @param importance l'importance
 	 * @param begin le d√©but
 	 */
-	public Task(Date deadline, String name, Categorie categorie, int importance, Date begin) {
+	public Task(Date begin,Date deadline, String name, Categorie categorie, Importance importance) {
 		super();
 		this.begin = begin; 
 		setDeadline(deadline);
+		if(getDeadline().before(getBegin())){
+			throw new IllegalArgumentException("Date de fin > Date de dÈbut");
+		}
+
 		this.name = name;
 		this.categorie = categorie;
 		this.importance = importance;
@@ -117,7 +124,13 @@ public abstract class Task implements Comparable<Task>, Serializable{
 		this.deadline = date.getTime();
 	}
 	
+	/**
+	 * 
+	 * @return Nombre de jours restants avant la fin de la t√¢che.
+	 */
 	public long nbJourRestant(){
+		if(getIs_end())
+			return 0;
 		Calendar date = new GregorianCalendar();
 		Date today = new Date();
 		date.setTime(today);
@@ -198,7 +211,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 	 * 
 	 * @return l'importance
 	 */
-	public int getImportance() {
+	public Importance getImportance() {
 		return importance;
 	}
 
@@ -206,7 +219,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 	 * 
 	 * @param importance l'importance que l'on veut mettre
 	 */
-	public void setImportance(int importance) {
+	public void setImportance(Importance importance) {
 		this.importance = importance;
 	}
 
