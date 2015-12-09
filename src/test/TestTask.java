@@ -32,6 +32,7 @@ public class TestTask {
 	private Categorie categorie;
 	private Importance importance;
 
+	@SuppressWarnings("rawtypes")
 	@Parameters
 	public static Collection data() {
 		Calendar debut = new GregorianCalendar();
