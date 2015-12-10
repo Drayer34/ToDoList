@@ -68,7 +68,6 @@ public class Bilan {
 		for(Task t : savTaskList){
 			if (t.getDeadline().getTime()<=fin.getTime() && t.getDeadline().getTime() >= debut.getTime()){
 				if (!t.getIs_end()){
-					t.setColorText("\"#01DF01\"");
 					cptCurt++;
 				}
 				else {
@@ -77,7 +76,6 @@ public class Bilan {
 				}
 				if (t.updateIsLate()){
 					cptLate++;
-					t.setColorText("\"#DF0101\"");
 				}
 				bilanPeriod.add(t);
 				total++;
