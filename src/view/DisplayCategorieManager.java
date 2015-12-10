@@ -110,7 +110,7 @@ public class DisplayCategorieManager extends JFrame{
 	}
 
 	/**
-	 * initialisation de la fenêtre catégorie
+	 * Initialisation de la fenêtre catégorie
 	 */
 	public void init(){
 		contents.setLayout(new BoxLayout(contents,BoxLayout.PAGE_AXIS));

@@ -18,12 +18,12 @@
 \newpage
 
 \section{Lancement de l'application}
-Pour lancer l'application, il suffit de double cliquer sur ToDoList.jar, de compiler les sources en incluant le librairie Jcalendar ou bien sous Linux via la commande : \verb+java -jar ToDoList.jar+
+Pour lancer l'application, il suffit de double cliquer sur ToDoList.jar, de compiler les sources en incluant le librairie JCalendar ou bien sous Linux via la commande : \verb+java -jar ToDoList.jar+
 \newline
 \newline
-Une fois l'application lancée on arrive sur la fenêtre principale (Figure~\ref{Fenêtre principale}), c'est à partir de cette fenêtre que l'on va pouvoir gérer nos tâches. 
+Une fois l'application lancée vous arriverez sur la fenêtre principale (Figure~\ref{Fenêtre principale}), c'est à partir de cette fenêtre que vous allez gérer vos tâches. 
 \newline
-Si l'on veut quitter l'application il faut cliquer sur la croix rouge ou bien utiliser la combinaison de touche Alt + f4
+Si vous souhaitez quitter l'application il faudra cliquer sur la croix rouge ou bien utiliser la combinaison de touche Alt + f4. Vos modification seront automatiquement sauvegarde dans le fichier sauvegarde.todo.
 
 \begin{figure}[h]
 	\centering
@@ -46,7 +46,7 @@ Lors de la première utilisation, lorsque vous êtes sur la fenêtre principale 
 \end{itemize}
 
 \subsection{Créer une tâche}
-Pour créer une tâche il faut appuyer sur le bouton "Nouvelle tâche" dans le menu (Figure~\ref{Taches barre}), ensuite on pourra choisir entre une tâche au long cours ou ponctuelle.
+Pour créer une tâche il faut appuyer sur le bouton "Nouvelle tâche" dans le menu (Figure~\ref{Taches barre}), ensuite vous pourrez choisir entre une tâche au long cours ou une tâche ponctuelle.
 
 \begin{figure}
 	\centering
@@ -55,7 +55,7 @@ Pour créer une tâche il faut appuyer sur le bouton "Nouvelle tâche" dans le m
 	\label{Taches barre}
 \end{figure}
 
-Une fois choisie il ne reste plus qu'à entrer les informations à votre tâche (Figures \ref{Tâche au long cours} et \ref{Tâche Ponctuelle}). Il faut appuyer sur "Valider" pour valider la tâche.
+Une fois choisie il ne reste plus qu'à entrer les informations de votre tâche (Figures \ref{Tâche au long cours} et \ref{Tâche Ponctuelle}). Il faut appuyer sur "Valider" pour valider la tâche.
 
 \begin{figure}[!ht]
 	\centering
@@ -73,11 +73,13 @@ Une fois choisie il ne reste plus qu'à entrer les informations à votre tâche 
 	\end{minipage}
 \end{figure}
 
-\textbf{NB :} On peut soit rentrer les dates au clavier au format jj/MM/aaaa soit les choisir avec le calendrier.
+\textbf{NB :} Vous pouvez soit rentrer les dates au clavier sous le format jj/MM/aaaa ou les choisir avec le calendrier.
 \newline
 \par
- Lorsque l'on ajoute une tâche, on retourne sur la fenêtre principale, les tâches au long cours apparaîtront bleues et les tâches ponctuelles vertes. Le nombre de jours restant avant la fin de la tâche sera indiqué à côté de celle-ci.
-De plus, si une tâche est en retard un petit panneau rouge vous l'indiquera.(Figure \ref{Fenetre principale 2}).
+Lorsque vous ajoutez une tâche, vous retournerez sur la fenêtre principale, les tâches au long cours apparaîtront bleues et les tâches ponctuelles vertes. Le nombre de jours restant avant la fin de la tâche sera indiqué à côté de celle-ci.
+De plus, si une tâche est en retard un petit panneau rouge vous l'indiquera.
+Pour modifier les paramètres d'une tâche il vous faudra la sélectionner dans la liste située à gauche enfin sur la droite s'affichera les informations de cette tâche. Vous pourrez la modifier en cliquant sur le bouton Modifier vous pourrez ensuite "Valider" vos modification ou les "Annuler". Le bouton Supprimer permet d'éffacer intégralement une tâche, si vous souhaité finir une tâche vous avez deux possibilités soit en cliquant sur Tâche finie pour les tâches ponctuelle soit en modifiant la tâche et en faisant avancer l'évolution de celle-ci à 100% Une tâche terminée est sauvegardée en mémoire contrairement à une tâche que vous supprimez.
+(Figure \ref{Fenetre principale 2}).
 
 \begin{figure}[!h]
 	\centering
@@ -88,7 +90,7 @@ De plus, si une tâche est en retard un petit panneau rouge vous l'indiquera.(Fi
 
 \clearpage
 \subsection{Créer Modifier une catégoire}
-Pour créer/modifier une catégorie il suffit de cliquer sur "Option" puis "Catégorie" (Figure \ref{barre Opiton}).
+Pour accéder au paramètre des catégories il vous suffira de cliquer sur "Option" puis "Catégorie" (Figure \ref{barre Opiton}).
 
 \begin{figure}[h]
 	\centering
@@ -97,7 +99,7 @@ Pour créer/modifier une catégorie il suffit de cliquer sur "Option" puis "Cat�
 	\label{barre Opiton}
 \end{figure}
 
-Ensuite on peut voir toutes les catégories, en modifier, en ajouter ou en supprimer (Figure \ref{modif Opiton}).
+Ensuite vous pourrez créer de nouvelle catégorie ou bien les modifier et les supprimer. La catégorie Aucune est une catégorie par défaut vous ne pouvez pas la modifier ni la supprimer. (Figure \ref{modif Opiton}).
 
 \begin{figure}[h]
 	\centering
@@ -109,8 +111,8 @@ Ensuite on peut voir toutes les catégories, en modifier, en ajouter ou en suppr
 %\clearpage
 \subsection{Générer le bilan}
 
-Notre application permet aussi de générer le bilan, pour ceci il faut cliquer sur le bouton "Option" puis "bilan" (Figure \ref{barre Opiton}).
-Une nouvelle fenêtre s'ouvre où il faut rentrer la date de début et la date de fin de la période sur laquelle on veut générer le bilan puis cliquer sur "Générer" (Figrue \ref{bilan}).
+Notre application permet aussi de générer le bilan, pour ceci il faut cliquer sur le bouton "Option" puis "Bilan" (Figure \ref{barre Opiton}).
+Une nouvelle fenêtre s'ouvrira où il faudra rentrer la date de début et la date de fin de la période sur laquelle vous souhaitez générer le bilan puis cliquer sur "Générer" (Figrue \ref{bilan}).
 
 \begin{figure}
 	\centering
@@ -123,6 +125,8 @@ La fenêtre contiendra les tâches comprise dans le bilan, leur statut (les tâc
 
 \subsection{Les tris}
 
-Il y a trois tris à disposition, le tris simple (tris par deadline), le tris avancé (tris en fonction des échéances intermédiaires) et le tris par importance. Pour les activer il faut cliquer sur "Option" puis sélectioner le tris souhaité (Figure \ref{barre Opiton}).
+Il y a trois tris à disposition, le tri simple qui tri par ordre de proximité
+d'échéance croissante pour les tâches dont l'échéance n'est pas échue, et décroissante
+pour les tâches dont l'échéance est échue, le tri avancé (tris en fonction des échéances intermédiaires des tâche au long cours) et le tri par importance qui présente 9 tâches : une importante, 3 moyennes, et 5 faible. Pour les activer il faut cliquer sur "Option" puis cliquer le tri souhaité. Attention si vous souhaitez re-afficher l'ensemble des tâches il sufira de cliquer sur le tri simple ou le tri avancé.(Figure \ref{barre Opiton}).
 
 \end{document}
