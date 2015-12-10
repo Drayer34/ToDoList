@@ -26,6 +26,7 @@ public class TestTask {
 	TaskLongCours task1;
 	TaskLongCours task2;
 	TaskPonctuelle task3;
+	TaskLongCours task4;
 	private Date begin;
 	private Date deadline;
 	private String name;
@@ -42,7 +43,8 @@ public class TestTask {
 		Calendar fin = new GregorianCalendar();
 		fin.setTime(debut.getTime());
 		fin.add(Calendar.DAY_OF_YEAR, 4);
-			
+		
+
 
 		return Arrays.asList(new Object[][]{
 				{debut.getTime(),fin.getTime(),"tache 1",new Categorie("Travail"),Importance.Faible},
@@ -71,6 +73,8 @@ public class TestTask {
 		task1 = new TaskLongCours(deadline,name,categorie,importance);
 		task2 = new TaskLongCours(begin,deadline,name,categorie,importance);
 		task3 = new TaskPonctuelle(deadline, name, categorie, importance);
+		task4 = new TaskLongCours(begin,deadline,name,categorie,importance);
+
 	}
 
 	@Test
@@ -100,33 +104,43 @@ public class TestTask {
 	 * Donc on compare le temps sans les milliseconde.
 	 */
 	public void testNextPartialDeadline(){
-		GregorianCalendar calendar = new java.util.GregorianCalendar();
-		calendar.setTime(begin);
-		long diff = deadline.getTime() - begin.getTime();
-		long par4 = (((diff/4)/1000)/60)/60;
-		calendar.add(Calendar.HOUR, (int) par4);
 
-		assertThat(task1.nextPartialDeadline().getTime()/1000, is(calendar.getTime().getTime()/1000));
-		assertThat(task2.nextPartialDeadline(), is(calendar.getTime()));
+		Calendar date = new GregorianCalendar();
+		Date d = new Date();
+		date.add(Calendar.DAY_OF_YEAR, -2);
+		task4.setBegin(date.getTime());
+		
+		date.add(Calendar.DAY_OF_YEAR, 3);
+		task4.setDeadline(date.getTime());
+		
+		assertThat(task1.updateIsLate(), is(false));
+		assertThat(task2.updateIsLate(), is(false));
+		assertThat(task4.updateIsLate(), is(true));
 
 		task1.setPercent(26);
 		task2.setPercent(26);
-		calendar.add(Calendar.HOUR, (int) par4);
-		
-		assertThat(task1.nextPartialDeadline().getTime()/1000, is(calendar.getTime().getTime()/1000));
-		assertThat(task2.nextPartialDeadline(), is(calendar.getTime()));
+		task4.setPercent(26);
+
+		assertThat(task1.updateIsLate(), is(false));
+		assertThat(task2.updateIsLate(), is(false));
+		assertThat(task4.updateIsLate(), is(true));
 
 		task1.setPercent(51);
 		task2.setPercent(51);
-		calendar.add(Calendar.HOUR, (int) par4);
+		task4.setPercent(51);
 
-		assertThat(task1.nextPartialDeadline().getTime()/1000, is(calendar.getTime().getTime()/1000));
-		assertThat(task2.nextPartialDeadline(), is(calendar.getTime()));
+		assertThat(task1.updateIsLate(), is(false));
+		assertThat(task2.updateIsLate(), is(false));
+		assertThat(task4.updateIsLate(), is(false));
 
 		task1.setPercent(76);
 		task2.setPercent(76);
-		assertThat(task1.nextPartialDeadline(), is(deadline));
-		assertThat(task2.nextPartialDeadline(), is(deadline));
+		task4.setPercent(76);
+
+		assertThat(task1.updateIsLate(), is(false));
+		assertThat(task2.updateIsLate(), is(false));
+		assertThat(task4.updateIsLate(), is(false));
+
 	}
 	
 	@Test

@@ -101,7 +101,11 @@ public class Controler {
 				if(displayManager.getPercent() >= 100){
 					displayManager.showMessage(1);
 				}
-				manager.percentChange((TaskLongCours) t,displayManager.getPercent());
+				try{
+					manager.percentChange((TaskLongCours) t,displayManager.getPercent());
+				}catch(IllegalArgumentException e){
+					displayManager.showMessage(3);
+				}
 			}
 			if(t.getIs_end()){
 				displayManager.updateSortTaskList();

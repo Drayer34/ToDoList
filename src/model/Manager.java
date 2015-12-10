@@ -118,9 +118,14 @@ public class Manager implements Serializable {
 	 * @param percent le poucentage a mettre
 	 */
 	public void percentChange(TaskLongCours t, int percent){
-		t.setPercent(percent);
-		if(t.getIs_end()){
-			endTask(t);
+		try{
+			t.setPercent(percent);
+			if(t.getIs_end()){
+				endTask(t);
+			}
+		}catch(IllegalArgumentException e){
+			System.out.println("Le pourcentage ne peut que croître");
+			throw new IllegalArgumentException("Le pourcentage ne peut que croître");
 		}
 	}
 

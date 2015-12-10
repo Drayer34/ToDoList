@@ -58,7 +58,7 @@ public class TaskLongCours extends Task implements Serializable{
 		}else{
 			GregorianCalendar calendar = new java.util.GregorianCalendar(); 
 			calendar.setTime(new Date());
-			Date theorique =this.nextPartialDeadline();
+			Date theorique = this.nextPartialDeadline();
 			if (calendar.getTime().after(theorique)){
 				super.setIs_late(true);
 				return true;
@@ -93,9 +93,13 @@ public class TaskLongCours extends Task implements Serializable{
 	 * @param percent le pourcentage que l'on veut mettre
 	 */
 	public void setPercent(int percent) {
+		if(percent < this.percent){
+			throw new IllegalArgumentException("Le pourcentage ne peut que croître");
+		}
 		this.percent = percent;
 		end();
 		updateIsLate();
+
 	}
 
 	/**

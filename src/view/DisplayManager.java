@@ -111,7 +111,7 @@ public class DisplayManager extends JFrame{
 	 */
 	private ButtonGroup sortGroup = new ButtonGroup();
 	/**
-	 * Menu item nouvelle tâche au long cour 
+	 * Menu item nouvelle tâche au long cours 
 	 */
 	private JMenuItem newTaskItem1 = new JMenuItem(taskLongCour);
 	/**
@@ -659,6 +659,10 @@ public class DisplayManager extends JFrame{
 			break;
 		case 2 :
 			JOptionPane.showMessageDialog(new JFrame(),"La date de fin ne peut pas être anterieur à la date du jour celle-ci n'a pas été modifiée");
+			break;
+		case 3 :
+			JOptionPane.showMessageDialog(new JFrame(),"Le pourcentage ne peut que croître");
+			break;
 		}
 	}
 	/**
