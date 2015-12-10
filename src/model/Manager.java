@@ -37,6 +37,7 @@ public class Manager implements Serializable {
 	public Manager(){
 		listTask = new Vector<Task>();
 		savTaskList = new Vector<Task>();
+		listTaskSort3 = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
 		listCategorie.add(new Categorie("Aucune"));
 		listCategorie.add(new Categorie("Travail"));
@@ -218,8 +219,9 @@ public class Manager implements Serializable {
 		Vector<Task> importante = new Vector<Task>();
 		Vector<Task> moyen = new Vector<Task>();
 		Vector<Task> faible = new Vector<Task>();
-		listTaskSort3 = new Vector<Task>();
-
+		
+		listTaskSort3.clear();
+		
 		for(Task t : listTask){
 			switch(t.getImportance().ordinal()){
 			case 0: 
@@ -237,6 +239,7 @@ public class Manager implements Serializable {
 		if(importante.size() > 0){
 			listTaskSort3.add(importante.get(0));
 		}
+		
 		int count = 0;
 		for(Task t : moyen){
 			count++;
@@ -245,6 +248,7 @@ public class Manager implements Serializable {
 				break;
 			}
 		}
+		
 		count = 0;
 		for(Task t : faible){
 			count++;

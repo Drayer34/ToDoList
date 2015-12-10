@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -14,12 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -97,19 +94,15 @@ public class DisplayManager extends JFrame{
 	/**
 	 * CheckBox pour le tri simple
 	 */
-	private JCheckBoxMenuItem sort1 = new JCheckBoxMenuItem("Tri simple");
+	private JMenuItem sort1 = new JMenuItem("Tri simple");
 	/**
 	 * CheckBox pour le tri avancé
 	 */
-	private JCheckBoxMenuItem sort2 = new JCheckBoxMenuItem("Tri avancé");
+	private JMenuItem sort2 = new JMenuItem("Tri avancé");
 	/**
 	 * CheckBox pour le tri particulié
 	 */
-	private JCheckBoxMenuItem sort3 = new JCheckBoxMenuItem("Tri particulié");
-	/**
-	 * Groupe des boutons pour les CheckBoxMenuItem de tri
-	 */
-	private ButtonGroup sortGroup = new ButtonGroup();
+	private JMenuItem sort3 = new JMenuItem("Tri particulié");
 	/**
 	 * Menu item nouvelle tâche au long cours 
 	 */
@@ -197,15 +190,16 @@ public class DisplayManager extends JFrame{
 	public DisplayManager(Controler controler,Manager manager){
 		this.manager = manager;
 		this.controler = controler;
-		setLocationRelativeTo(null);
 		setTitle("Task Manager");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new WindowClosing());
 		setResizable(false);
-
+		init();
 
 		pack();
+
+		setLocationRelativeTo(null);
 	}
 
 	/**
@@ -242,15 +236,12 @@ public class DisplayManager extends JFrame{
 		menuNewTask.add(newTaskItem1);
 		menuNewTask.add(newTaskItem2);
 
-		sort1.addItemListener(new SortListener());
-		sort2.addItemListener(new SortListener());
-		sort3.addItemListener(new SortListener());
+		sort1.addActionListener(new SortListener());
+		sort2.addActionListener(new SortListener());
+		sort3.addActionListener(new SortListener());
 		sort1.setToolTipText("Tri en fonction de la deadline");
 		sort2.setToolTipText("Tri en fonction de la deadline et des paliers");
 		sort3.setToolTipText("1 importante - 3 moyennes - 5 faibles");
-		sortGroup.add(sort1);
-		sortGroup.add(sort2);
-		sortGroup.add(sort3);
 
 		listSort.add(sort1);
 		listSort.add(sort2);
@@ -295,6 +286,7 @@ public class DisplayManager extends JFrame{
 
 		info.setPreferredSize(new Dimension(300,350));
 		buttons.setMaximumSize(new Dimension(350,100));
+		buttons.setMinimumSize(new Dimension(350,100));
 
 
 		info.setLayout(new BoxLayout(info,BoxLayout.PAGE_AXIS));
@@ -310,13 +302,13 @@ public class DisplayManager extends JFrame{
 		name.setMaximumSize(new Dimension(150,20));
 		name.setEnabled(false);
 
-		b_name.add(new JLabel("Nom           "));
+		b_name.add(new JLabel("Nom              "));
 		b_name.add(name);
 
 		/*Initialisation de categorie */
 		categorie.setMaximumSize(new Dimension(150,20));
 		categorie.setEnabled(false);
-		b_cate.add(new JLabel("Categorie  "));
+		b_cate.add(new JLabel("Categorie     "));
 		b_cate.add(categorie);
 
 		/*Initialisation importance */
@@ -326,13 +318,13 @@ public class DisplayManager extends JFrame{
 		importance.setMaximumSize(new Dimension(150,20));
 		importance.setEnabled(false);
 
-		b_importance.add(new JLabel("Importance "));
+		b_importance.add(new JLabel("Importance   "));
 		b_importance.add(importance);
 
 		/*Initialisation Date Picker */		
 
 
-		b_date.add(new JLabel("Deadline   "));
+		b_date.add(new JLabel("Deadline      "));
 		dateChooser.setPreferredSize(new Dimension(150,20));
 		dateChooser.setEnabled(false);
 		dateChooser.setDateFormatString("dd/MM/yyyy");
@@ -340,7 +332,7 @@ public class DisplayManager extends JFrame{
 
 		/* Init pourcentage */
 
-		b_progressBar.add(new JLabel("Evolution    "));
+		b_progressBar.add(new JLabel("Evolution       "));
 		percent.setMaximumSize(new Dimension(30,20));
 		percent.setPreferredSize(new Dimension(30,20));
 		percent.setEnabled(false);
@@ -392,20 +384,20 @@ public class DisplayManager extends JFrame{
 
 	/**
 	 * Met à jour la JList contenant les tâche en cours pour les tris
+	 * @param liste Liste de tâches 
 	 */
-	public void updateSortTaskList(){
-		if(sort3.isSelected()){
-			updateMainFrame(false);
-			taskList.setListData(manager.getListTaskSort3());
-		}else{
-			updateMainFrame(false);
-			taskList.setListData(manager.getListTask());
-		}
+	public void updateSortTaskList(Vector<Task> liste){
+		updateMainFrame(false);
+		taskList.setListData(liste);
 		taskList.revalidate();
 	}
 
+	/**
+	 * rafraichie la JList
+	 */
 	public void refreshTaskList(){
 		taskList.updateUI();
+		taskList.revalidate();
 	}
 
 
@@ -575,11 +567,11 @@ public class DisplayManager extends JFrame{
 	 * @author Antoine Laurent et Anthony Brunel
 	 *
 	 */
-	public class SortListener implements ItemListener{
+	public class SortListener implements ActionListener{
 
 		@Override
-		public void itemStateChanged(ItemEvent e) {
-			controler.sortControler(((JCheckBoxMenuItem)e.getItem()).getText());
+		public void actionPerformed(ActionEvent e) {
+			controler.sortControler(((JMenuItem)e.getSource()).getText());			
 		}
 	}
 
@@ -664,20 +656,6 @@ public class DisplayManager extends JFrame{
 			JOptionPane.showMessageDialog(new JFrame(),"Le pourcentage ne peut que croître");
 			break;
 		}
-	}
-	/**
-	 * 
-	 * @return le nom du tri sélectionné
-	 */
-	public String getSelectedSort(){
-		if(sort1.isSelected()){
-			return sort1.getText();
-		}else if(sort2.isSelected()){
-			return sort2.getText();
-		}else if(sort3.isSelected()){
-			return sort3.getText();
-		}
-		return "Default";
 	}
 	/**
 	 * 

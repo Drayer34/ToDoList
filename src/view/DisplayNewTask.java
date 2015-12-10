@@ -120,7 +120,6 @@ public class DisplayNewTask extends JFrame{
 			setTitle("Nouvelle tâche au long cours");
 		else
 			setTitle("Nouvelle tâche ponctuelle");
-		setLocationRelativeTo(null);
 
 		this.setMinimumSize(new Dimension(300,300));
 		this.setVisible(true);
@@ -128,6 +127,7 @@ public class DisplayNewTask extends JFrame{
 		setResizable(false);
 		init();
 		pack();
+		setLocationRelativeTo(null);
 	}
 
 	/**

@@ -57,9 +57,7 @@ public class Controler {
 		//Initialiser les vue das le controler
 		this.manager = manager;
 		this.displayManager = new DisplayManager(this, manager);
-		displayManager.init();
 	}
-
 
 	/**
 	 * Créer une fenêtre nouvelle tâche
@@ -98,9 +96,6 @@ public class Controler {
 				manager.changeTaskDate(t, displayManager.getDeadLine());
 			}
 			if(t.isLongCourt()){
-				if(displayManager.getPercent() >= 100){
-					displayManager.showMessage(1);
-				}
 				try{
 					manager.percentChange((TaskLongCours) t,displayManager.getPercent());
 				}catch(IllegalArgumentException e){
@@ -108,8 +103,10 @@ public class Controler {
 				}
 			}
 			if(t.getIs_end()){
-				displayManager.updateSortTaskList();
-				displayManager.updateMainFrame(false);	
+				displayManager.showMessage(1);
+				displayManager.refreshTaskList();
+				displayManager.updateMainFrame(false);
+
 			}else{
 				displayManager.refreshTaskList();
 				displayManager.updateMainFrame(true);
@@ -119,11 +116,12 @@ public class Controler {
 			displayManager.updateMainFrame(true);
 		}else if(b.compareTo("Supprimer") == 0){
 			manager.removeTask(displayManager.getSelectedTask());
-			displayManager.updateSortTaskList();
+			displayManager.refreshTaskList();
 			displayManager.updateMainFrame(false);		
 		}else if(b.compareTo("Tâche finie") == 0){
 			manager.endTask(displayManager.getSelectedTask());
-			displayManager.updateSortTaskList();
+			displayManager.showMessage(1);
+			displayManager.refreshTaskList();
 			displayManager.updateMainFrame(false);
 		}
 	}
@@ -170,25 +168,26 @@ public class Controler {
 			}
 			manager.addTask(t);
 			displayNewTask.close();
-			displayManager.activeMenuBar();//bouton nouvelle tache menu bar
-			sortControler(displayManager.getSelectedSort());
+			displayManager.activeMenuBar();
+			displayManager.updateSortTaskList(manager.getListTask());
 		}
 	}
 
 	/**
-	 * On effectu les tris des tâches
+	 * On effectue les tris des tâches
 	 * @param button le tri est demandé
 	 */
 	public void sortControler(String button){
 		if(button.compareTo("Tri simple") == 0){
 			manager.sortTaskList();
+			displayManager.updateSortTaskList(manager.getListTask());
 		}else if(button.compareTo("Tri avancé") == 0){
 			manager.sortTaskListPartialDeadLine();
+			displayManager.updateSortTaskList(manager.getListTask());
 		}else if(button.compareTo("Tri particulié") == 0){
 			manager.sortTaskListImportance();
-			displayManager.updateMainFrame(false);
+			displayManager.updateSortTaskList(manager.getListTaskSort3());
 		}
-		displayManager.updateSortTaskList();
 	}
 
 	/**
@@ -197,7 +196,7 @@ public class Controler {
 	public void displayManagerClosing() {
 		SerializationManager.saveManager(manager);
 	}
-	
+
 	/*           FONCTION POUR LE DISPLAY CATEGORIE MANAGER               */
 
 	/**
@@ -280,7 +279,5 @@ public class Controler {
 			displayBilanManager.updateBilan();
 		}
 	} 
-
-
 
 }

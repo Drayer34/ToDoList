@@ -98,11 +98,11 @@ public class DisplayBilanManager extends JFrame{
 		this.setVisible(true);
 		this.setTitle("Bilan");
 		setPreferredSize(new Dimension(450, 450));
-		setLocationRelativeTo(null);
 		setResizable(false);
 		
 		init();
 		pack();
+		setLocationRelativeTo(null);
 	}
 	
 	/**

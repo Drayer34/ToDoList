@@ -100,13 +100,13 @@ public class DisplayCategorieManager extends JFrame{
 		this.displayManagaer = displayManagaer;
 
 		setTitle("Option categorie");
-		setLocationRelativeTo(null);
 
 		this.setVisible(true);
 		this.setMinimumSize(new Dimension(250,250));
 		this.addWindowListener(new WindowClosing());
 		init();
 		pack();
+		setLocationRelativeTo(null);
 	}
 
 	/**
