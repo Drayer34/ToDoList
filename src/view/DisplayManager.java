@@ -202,6 +202,7 @@ public class DisplayManager extends JFrame{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new WindowClosing());
+		setResizable(false);
 
 
 		pack();

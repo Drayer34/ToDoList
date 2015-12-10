@@ -97,6 +97,7 @@ public class DisplayBilanManager extends JFrame{
 		this.bilan = bilan;
 		this.setVisible(true);
 		setPreferredSize(new Dimension(450, 450));
+		setLocationRelativeTo(null);
 		setResizable(false);
 		
 		init();
@@ -114,7 +115,11 @@ public class DisplayBilanManager extends JFrame{
 		taskPanel.setPreferredSize(new Dimension(250, 250));
 
 		begin.setPreferredSize(new Dimension(100,20));
+		begin.setDateFormatString("dd/MM/yyyy");
+		begin.setToolTipText("dd/mm/yyyy");
 		end.setPreferredSize(new Dimension(100,20));
+		end.setDateFormatString("dd/MM/yyyy");
+		end.setToolTipText("dd/mm/yyyy");
 		
 		datePanel.add(beginingLabel);
 		datePanel.add(begin);

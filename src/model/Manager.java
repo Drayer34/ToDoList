@@ -38,7 +38,7 @@ public class Manager implements Serializable {
 		listTask = new Vector<Task>();
 		savTaskList = new Vector<Task>();
 		listCategorie = new Vector<Categorie>();
-		listCategorie.add(new Categorie("Défault"));
+		listCategorie.add(new Categorie("Aucune"));
 		listCategorie.add(new Categorie("Travail"));
 		listCategorie.add(new Categorie("Personnel"));
 	}
@@ -149,7 +149,6 @@ public class Manager implements Serializable {
 	 */
 	public void changeTaskDate(Task t,Date end){
 		t.setDeadline(end);
-		t.updateIsLate();
 	}
 
 	/**
