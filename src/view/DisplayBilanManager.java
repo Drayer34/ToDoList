@@ -96,6 +96,7 @@ public class DisplayBilanManager extends JFrame{
 		this.controler = controler;
 		this.bilan = bilan;
 		this.setVisible(true);
+		this.setTitle("Bilan");
 		setPreferredSize(new Dimension(450, 450));
 		setLocationRelativeTo(null);
 		setResizable(false);
