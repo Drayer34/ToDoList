@@ -46,52 +46,153 @@ import com.toedter.calendar.JDateChooser;
 
 import controler.Controler;
 
+/**
+ * Classe d'affichage pour la fenêtre principale
+ * @author Antoine Laurent et Anthony Brunel
+ *
+ */
 @SuppressWarnings("serial")
 public class DisplayManager extends JFrame{
 
+	/**
+	 * Instance de Controler
+	 */
 	private Controler controler;
+	/**
+	 * Instance de Manager
+	 */
 	private Manager manager;
+	/**
+	 * String tâche au long cours
+	 */
 	private String taskLongCour = "Tâche au long cours";
+	/**
+	 * String tâche ponctuelle
+	 */
 	private String taskPonctuelle = "Tâche ponctuelle";
-
+	/**
+	 * Barre des menus
+	 */
 	private JMenuBar bar = new JMenuBar();
+	/**
+	 * Menu nouvelle tâche
+	 */
 	private JMenu menuNewTask  = new JMenu("Nouvelle tâche");
+	/**
+	 * Menu option
+	 */
 	private JMenu menuEdit  = new JMenu("Option");
+	/**
+	 * Menu item éditer categorie
+	 */
 	private JMenuItem menuCategorie  = new JMenuItem("Editer categorie");
+	/**
+	 * Menu item lancer la fenêtre bilan
+	 */
 	private JMenuItem menuBilan  = new JMenuItem("Bilan");
+	/**
+	 * Menu tri de liste
+	 */
 	private JMenu listSort  = new JMenu("Tris");
+	/**
+	 * CheckBox pour le tri simple
+	 */
 	private JCheckBoxMenuItem sort1 = new JCheckBoxMenuItem("Tri simple");
+	/**
+	 * CheckBox pour le tri avancé
+	 */
 	private JCheckBoxMenuItem sort2 = new JCheckBoxMenuItem("Tri avancé");
+	/**
+	 * CheckBox pour le tri particulié
+	 */
 	private JCheckBoxMenuItem sort3 = new JCheckBoxMenuItem("Tri particulié");
+	/**
+	 * Groupe des boutons pour les CheckBoxMenuItem de tri
+	 */
 	private ButtonGroup sortGroup = new ButtonGroup();
+	/**
+	 * Menu item nouvelle tâche au long cour 
+	 */
 	private JMenuItem newTaskItem1 = new JMenuItem(taskLongCour);
+	/**
+	 * Menu item nouvelle tâche ponctuelle
+	 */
 	private JMenuItem newTaskItem2 = new JMenuItem(taskPonctuelle);
+	/**
+	 * Panel contenant la liste des tâches en cours
+	 */
 	private JScrollPane sc_pan;
+	/**
+	 * Liste des tâches en cours
+	 */
 	private JList<Task> taskList;
-
+	/**
+	 * Panel contenant les informations d'une tâche
+	 */
 	private JPanel taskDesc = new JPanel();
+	/**
+	 * Titre de la tâche sélectionnée
+	 */
 	private JLabel title = new JLabel("");
+	/**
+	 * Nom de la tâche sélectionnée
+	 */
 	private JTextField name = new JTextField();
+	/**
+	 * Catégorie de la tâche sélectionnée
+	 */
 	private JComboBox<Categorie> categorie;
+	/**
+	 * Importance de la tâche sélectionnée
+	 */
 	private JComboBox<Importance> importance;
 
+	/**
+	 * Bouton valider la modification d'une tâche
+	 */
 	private JButton valide = new JButton("Valider");
+	/**
+	 * Bouton modifier la modification d'une tâche
+	 */
 	private JButton modifer = new JButton("Modifier");
+	/**
+	 * Bouton annuler la modification d'une tâche
+	 */
 	private JButton cancel = new JButton("Annuler");
+	/**
+	 * Bouton supprimer la tâche sélectionnée
+	 */
 	private JButton delete = new JButton("Supprimer");
+	/**
+	 * Bouton terminer la tâche sélectionnée
+	 */
 	private JButton finish = new JButton("Tâche finie");
 
+	/**
+	 * Champ pourcentage 
+	 */
 	private JTextField percent = new JTextField("");
+	/**
+	 * La barre de progression du pourcentage
+	 */
 	private JProgressBar progressBar = new JProgressBar();
+	/**
+	 * Date de la tâche sélectionnée
+	 */
 	private JDateChooser dateChooser = new JDateChooser();
-
+	/**
+	 * Panel de la barre de progréssion
+	 */
 	private JPanel b_progressBar = new JPanel();
+	/**
+	 * Panel contenant le bouton tâche finie
+	 */
 	private JPanel b_finishButton = new JPanel();
 
 	/**
 	 * Constructeur
-	 * @param controler controleur associ� a la fenetre
-	 * @param manager manager associ� a la fenetre
+	 * @param controler controleur associé a la fenetre
+	 * @param manager manager associé a la fenetre
 	 */
 	public DisplayManager(Controler controler,Manager manager){
 		this.manager = manager;
@@ -101,13 +202,13 @@ public class DisplayManager extends JFrame{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new WindowClosing());
-		
+
 
 		pack();
 	}
 
 	/**
-	 * Initialise la frame
+	 * Initialise la fenêtre
 	 */
 	public void init(){
 		setMinimumSize(new Dimension(650,400));
@@ -116,8 +217,6 @@ public class DisplayManager extends JFrame{
 		taskDesc.setLayout(new BorderLayout());
 		taskList = new JList<Task>(manager.getListTask());
 		taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//taskList.setVisibleRowCount(-1);
-		//taskList.repaint();
 
 		taskList.addListSelectionListener(taskListListener);
 		sc_pan = new JScrollPane(taskList);
@@ -128,8 +227,8 @@ public class DisplayManager extends JFrame{
 		refreshTaskList();
 		initMenuBar();
 		initTaskDesc();
-		
-		
+
+
 		pack();
 	}
 	/**
@@ -260,7 +359,7 @@ public class DisplayManager extends JFrame{
 		b_finishButton.setVisible(false);
 
 		/* Ajout des box */
-		
+
 		info.add(b_title);
 		info.add(Box.createRigidArea(new Dimension(0,20)));
 		info.add(b_name);
@@ -291,7 +390,7 @@ public class DisplayManager extends JFrame{
 	}
 
 	/**
-	 * Met à jour la JList contenant les tache en cours pour les tris
+	 * Met à jour la JList contenant les tâche en cours pour les tris
 	 */
 	public void updateSortTaskList(){
 		if(sort3.isSelected()){
@@ -303,14 +402,14 @@ public class DisplayManager extends JFrame{
 		}
 		taskList.revalidate();
 	}
-	
+
 	public void refreshTaskList(){
 		taskList.updateUI();
 	}
 
 
 	/**
-	 * Met a jour le descripteur de tache et la JList
+	 * Met à jour le descripteur de tâche et la JList
 	 * @param isVisible informe de la visibilité du panel task desc
 	 */
 	public void updateMainFrame(boolean isVisible){
@@ -339,10 +438,10 @@ public class DisplayManager extends JFrame{
 		taskList.revalidate();
 		taskDesc.revalidate();
 	}
-	
+
 	/**
-	 * Active ou désactive les boutons si on souhaite modifier une tache
-	 * @param b défini le status des bouton (true on modifie la tache / false on ne peut pas modifier la tache
+	 * Active ou désactive les boutons si on souhaite modifier une tâche
+	 * @param b défini le status des bouton (true on modifie la tâche / false on ne peut pas modifier la tâche
 	 */
 	public void switchButtonTaskDesc(boolean b){
 		valide.setEnabled(b);
@@ -360,34 +459,51 @@ public class DisplayManager extends JFrame{
 		menuEdit.setEnabled(!b);
 	}
 
-	/*D�sactive le menu nouvelle tache */
+	/**
+	 * Désactive le menu nouvelle tache
+	 */
 	public void disableMenuBar(){
 		menuNewTask.setEnabled(false);
 		menuEdit.setEnabled(false);
 		menuNewTask.validate();
 	}
 
-	/*Activer le menu nouvelle tache */
+	/**
+	 * Activer le menu nouvelle tâche
+	 */
 	public void activeMenuBar(){
 		menuNewTask.setEnabled(true);
 		menuEdit.setEnabled(true);
 		menuNewTask.validate();
 	}
 
+	/**
+	 * Classe listener sur les Menus items
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class newTaskMenuBarListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			controler.newTask(((JMenuItem)e.getSource()).getText());
 		}
 	}
-
+	/**
+	 * Classe listener sur le menu item catégorie
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class categorieMenuBarListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			controler.newDisplayCategorieManager();
 		}
 	}
-
+	/**
+	 * Classe listener sur le menu item bilan
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class bilanMenuBarListener implements ActionListener{
 
 		@Override
@@ -396,6 +512,12 @@ public class DisplayManager extends JFrame{
 		}
 	}
 
+	/**
+	 * Classe listener pour enlever tous les caractère sauf [0-9]
+	 * dans le JTextfield du pourcentage
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class percentKeyListener implements KeyListener{
 
 		@Override
@@ -417,6 +539,11 @@ public class DisplayManager extends JFrame{
 				e.consume();
 		}
 	}
+	/**
+	 * Classe listener sur la liste des tâche en cours
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class TaskListListener implements ListSelectionListener{
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
@@ -430,7 +557,11 @@ public class DisplayManager extends JFrame{
 		}
 	}
 
-	/*Task Desc Bouttons Listener*/
+	/**
+	 * Classe Bouton listener du panel de description d'une tâche 
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class BoutonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -438,6 +569,11 @@ public class DisplayManager extends JFrame{
 		}
 	}
 
+	/**
+	 * Classe listener sur les checkbox des tris
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class SortListener implements ItemListener{
 
 		@Override
@@ -445,7 +581,12 @@ public class DisplayManager extends JFrame{
 			controler.sortControler(((JCheckBoxMenuItem)e.getItem()).getText());
 		}
 	}
-	
+
+	/**
+	 * Classe listener pour la fermeture de la fenêtre
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class WindowClosing extends WindowAdapter{
 		@Override
 		public void windowClosing(WindowEvent e) {
@@ -453,40 +594,62 @@ public class DisplayManager extends JFrame{
 		}
 
 	}
-	
-	
+
+	/**
+	 * @return nom de la tâche
+	 */
 	public String get_Name() {
 		return name.getText();
 	}
-
+	/**
+	 * 
+	 * @return la catégorie selectionnée dans la combo box catégorie
+	 */
 	public Categorie getSelectedCategorie() {
 		return (Categorie) categorie.getSelectedItem();
 	}
 
+	/**
+	 * 
+	 * @return la tâche séléctionnée
+	 */
 	public Task getSelectedTask(){
 		return taskList.getSelectedValue();
 	}
-
+	/**
+	 * 
+	 * @return taskLongCour
+	 */
 	public String getTaskLongCour() {
 		return taskLongCour;
 	}
-
+	/**
+	 * 
+	 * @return taskPonctuelle
+	 */
 	public String getTaskPonctuelle() {
 		return taskPonctuelle;
 	}
-
+	/**
+	 * 
+	 * @return pourcentage entrée par l'utilisateur ou le pourcentage de la tâche si rien n'est rentré
+	 */
 	public int getPercent() {
 		if(percent.getText().compareTo("") != 0)
 			return Integer.parseInt(percent.getText());
 		return progressBar.getValue();
 	}
-
+	/**
+	 * Modifie le JTextfield percent
+	 * @param percent le pourcentage d'avancement de la tâche
+	 */
 	public void setPercent(JTextField percent) {
 		this.percent = percent;
 	}
 
-	/*
-	 * 1 = message de fin de tache
+	/**
+	 * Affiche un message en cas d'erreur
+	 * @param message cas d'erreur
 	 */
 	public void showMessage(int message) {
 		switch(message){
@@ -497,6 +660,10 @@ public class DisplayManager extends JFrame{
 			JOptionPane.showMessageDialog(new JFrame(),"La date de fin ne peut pas être anterieur à la date du jour celle-ci n'a pas été modifiée");
 		}
 	}
+	/**
+	 * 
+	 * @return le nom du tri sélectionné
+	 */
 	public String getSelectedSort(){
 		if(sort1.isSelected()){
 			return sort1.getText();
@@ -507,18 +674,33 @@ public class DisplayManager extends JFrame{
 		}
 		return "Default";
 	}
+	/**
+	 * 
+	 * @return Importance de la tâche sélectionnée
+	 */
 	public Importance getImportance(){
 		return (Importance) importance.getSelectedItem();
 	}
 
+	/**
+	 * 
+	 * @return JComboBox categorie
+	 */
 	public JComboBox<Categorie> getCategorie() {
 		return categorie;
 	}
-
+	/**
+	 * Modifie JComboBox categorie
+	 * @param categorie la catégorie choisie
+	 */
 	public void setCategorie(JComboBox<Categorie> categorie) {
 		this.categorie = categorie;
 	}
 
+	/**
+	 * 
+	 * @return Date de fin de sélectionnée par l'utilisateur ou la date de fin de la tâche
+	 */
 	public Date getDeadLine() {
 		if(dateChooser.getDate() != null){
 			Calendar date = new GregorianCalendar();

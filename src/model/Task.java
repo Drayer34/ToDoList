@@ -58,7 +58,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 		this.begin = new Date(); 
 		setDeadline(deadline);
 		if(getDeadline().before(getBegin())){
-			throw new IllegalArgumentException("Date de fin strictement supperieur ‡ la date de dÈbut");
+			throw new IllegalArgumentException("Date de fin strictement supperieur √† la date de d√©but");
 		}
 		this.name = name;
 		this.categorie = categorie;
@@ -78,7 +78,7 @@ public abstract class Task implements Comparable<Task>, Serializable{
 		this.begin = begin; 
 		setDeadline(deadline);
 		if(getDeadline().before(getBegin())){
-			throw new IllegalArgumentException("Date de fin > Date de dÈbut");
+			throw new IllegalArgumentException("Date de fin > Date de d√©but");
 		}
 
 		this.name = name;

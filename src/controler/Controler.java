@@ -221,7 +221,7 @@ public class Controler {
 			displayCategorieManager.updateNameAfterAdd();
 		}else if(buttonInfo.compareTo("Supprimer") == 0){
 			manager.removeCategorie(displayCategorieManager.getSelectedCategorie());
-			displayCategorieManager.updateRemoveTask();
+			displayCategorieManager.updateRemoveCategorie();
 		}else if(buttonInfo.compareTo("Modifier") == 0){
 			for(Categorie c : manager.getListCategorie()){
 				if(c.getCatName().compareTo(displayCategorieManager.get_reName()) == 0){

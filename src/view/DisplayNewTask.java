@@ -29,28 +29,89 @@ import com.toedter.calendar.JDateChooser;
 
 import controler.Controler;
 
+/**
+ * classe qui implémente la fenêtre nouvelle tâche
+ * @author Antoine Laurent et Anthony Brunel
+ *
+ */
 @SuppressWarnings("serial")
 public class DisplayNewTask extends JFrame{
 
+	/**
+	 * une instace du controler
+	 */
 	private Controler controler;
+	/**
+	 * une instance du manager
+	 */
 	private Manager manager;
+	/**
+	 * le type de la tâche
+	 */
 	private TaskType taskType;
+	/**
+	 * le champs pour le nom de la tâche
+	 */
 	private JTextField name = new JTextField("");
+	/**
+	 * panel pour les boutons
+	 */
 	private JPanel buttons = new JPanel();
+	/**
+	 * panel qui contient des objets graphique
+	 */
 	private JPanel contents = new JPanel(new BorderLayout());
+	/**
+	 * bouton valider
+	 */
 	private JButton valide = new JButton("Valider");
-	private JButton cancel = new JButton("Annuler");;
+	/**
+	 * bouton annuler
+	 */
+	private JButton cancel = new JButton("Annuler");
+	/**
+	 * date chooser pour la date de début
+	 */
 	private JDateChooser beginDateChooser = new JDateChooser();
+	/**
+	 * date chooser pour la date de fin
+	 */
 	private JDateChooser endDateChooser = new JDateChooser();
+	/**
+	 * combo box pour les différentes importances
+	 */
 	private JComboBox<Importance> importance;
+	/**
+	 * panel pour le nom de la tâche
+	 */
 	private JPanel b_name = new JPanel();
+	/**
+	 * panel pour la catégorie
+	 */
 	private JPanel b_cate = new JPanel();
+	/**
+	 * panel pour l'importance
+	 */
 	private JPanel b_importance = new JPanel();
+	/**
+	 * panel pour la date de fin
+	 */
 	private JPanel b_dateEnd = new JPanel();
+	/**
+	 * panel pour la date de fin
+	 */
 	private JPanel b_dateBegin = new JPanel();
-
+	/**
+	 * combo box pour les différentes catégories
+	 */
 	private JComboBox<Categorie> categorie;
 
+	/**
+	 * Constructeur
+	 * @param controler instance du controler
+	 * @param manager instance du manager
+	 * @param taskType instance du type de la tâche
+	 */
 	public DisplayNewTask(Controler controler,Manager manager, TaskType taskType){
 		this.controler = controler;
 		this.manager = manager;
@@ -68,6 +129,9 @@ public class DisplayNewTask extends JFrame{
 		pack();
 	}
 
+	/**
+	 * fonction qui initialise la fenêtre de novelle tâche
+	 */
 	public void init(){
 
 		contents.setPreferredSize(new Dimension(250,250));
@@ -120,6 +184,9 @@ public class DisplayNewTask extends JFrame{
 		add(contents);
 		add(buttons,"South");
 	}
+	/**
+	 * initialise le panel pour les tâches au long cours
+	 */
 	public void initTacheLongCour(){
 		b_dateBegin.setLayout(new BoxLayout(b_dateBegin, BoxLayout.LINE_AXIS));
 		beginDateChooser.setMaximumSize(new Dimension(150,20));
@@ -131,29 +198,51 @@ public class DisplayNewTask extends JFrame{
 		contents.add(Box.createRigidArea(new Dimension(0,20)));
 	}
 
-
+	/**
+	 * méthode qui ferme la fenêtre de nouvelle tâche
+	 */
 	public void close(){
 		this.dispose();
 	}
-
+	/**
+	 * 
+	 * @return name le nom de la tâche créée
+	 */
 	public String get_Name() {
 		return name.getText();
 	}
-
+	/**
+	 * 
+	 * @param name le nom de la nouvelle tâche que l'on veut mettre
+	 */
 	public void set_Name(JTextField name) {
 		this.name = name;
 	}
-
+	/**
+	 * 
+	 * @return catégorie la catégorie que l'on a choisie
+	 */
 	public Categorie getSelectedCategorie() {
 		return (Categorie) categorie.getSelectedItem();
 	}
-
+	/**
+	 * 
+	 * @return le type de la tâche créée
+	 */
 	public TaskType getTaskType() {
 		return taskType;
 	}
+	/**
+	 * 
+	 * @return date la date de début
+	 */
 	public Date getBeginDate(){
 		return beginDateChooser.getDate();
 	}
+	/**
+	 * 
+	 * @return date la date de fin
+	 */
 	public Date getEndDate(){
 		if(endDateChooser.getDate() != null){
 			Calendar date = new GregorianCalendar();
@@ -166,6 +255,11 @@ public class DisplayNewTask extends JFrame{
 		}
 		return null;
 	}
+	/**
+	 * Listener sur les boutons
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class ButtonsListener implements ActionListener{
 
 		@Override
@@ -173,16 +267,22 @@ public class DisplayNewTask extends JFrame{
 			controler.newTaskButtons(((JButton)e.getSource()).getText());
 		}
 	}
-
+	/**
+	 * Listener sur la fenêtre
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class WindowClosing extends WindowAdapter{
 		@Override
 		public void windowClosing(WindowEvent e) {
 
 			controler.newTaskButtons("exit");
 		}
-
 	}
-
+	/**
+	 * affiche un message en cas d'erreur
+	 * @param codeError le code d'erreur renvoyé par le controler
+	 */
 	public void printErrorDate(int codeError) {
 		switch (codeError){
 		case 1 :
@@ -202,7 +302,10 @@ public class DisplayNewTask extends JFrame{
 			break;
 		}
 	}
-
+	/**
+	 * 
+	 * @return importance l'importance
+	 */
 	public Importance getImportance() {
 		return (Importance) importance.getSelectedItem();
 	}

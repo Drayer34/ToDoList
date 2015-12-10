@@ -22,24 +22,76 @@ import com.toedter.calendar.JDateChooser;
 
 import controler.Controler;
 
+/**
+ * Classe qui s'occupe du display du bilan et de ses options
+ * @author Antoine Laurent et Anthony Brunel
+ *
+ */
 @SuppressWarnings("serial")
 public class DisplayBilanManager extends JFrame{
 	
+	/**
+	 * Instance de controler
+	 */
 	private Controler controler;
+	/**
+	 * Instance de bilan
+	 */
 	private Bilan bilan;
+	/**
+	 * DateChooser pour la date de début
+	 */
 	private JDateChooser begin = new JDateChooser();
+	/**
+	 * DateChooser pour la date de fin
+	 */
 	private JDateChooser end = new JDateChooser();
+	/**
+	 * Bouton permettant de générer le bilan
+	 */
 	private JButton generate = new JButton("Générer");
+	/**
+	 * Panel contenant les options de date et le bouton générer
+	 */
 	private JPanel datePanel = new JPanel();
+	/**
+	 * JScrollPane pour la liste des tache du bilan
+	 */
 	private JScrollPane taskPanel;
+	/**
+	 * Panel pour afficher les infos du bilan
+	 */
 	private JPanel percentPanel = new JPanel();
+	/**
+	 * Liste des taches contenue dans le bilan
+	 */
 	private JList<Task> listTaskBilan;
+	/**
+	 * JLabel pour afficher le pourcentage des tâches en retard
+	 */
 	private JLabel percentTaskLate = new JLabel("Tâches en retard : ");
+	/**
+	 * JLabel pour afficher le pourcentage des tâches en cours
+	 */
 	private JLabel percentTaskCurrent = new JLabel("Tâches en cours : ");
+	/**
+	 * JLabel pour afficher le pourcentage des tâches finies
+	 */
 	private JLabel percentTaskEnd = new JLabel("Tâches finies : ");
+	/**
+	 * JLabel pour afficher début pour les dates
+	 */
 	private JLabel beginingLabel = new JLabel("Début : ");
+	/**
+	 * JLabel pour afficher fin pour les dates
+	 */
 	private JLabel endLabel = new JLabel("Fin : ");
 
+	/**
+	 * Constructeur
+	 * @param controler Classe de controle liée au bilan
+	 * @param bilan Instance de la classe bilan
+	 */
 	public DisplayBilanManager(Controler controler, Bilan bilan) {
 		this.controler = controler;
 		this.bilan = bilan;
@@ -51,6 +103,9 @@ public class DisplayBilanManager extends JFrame{
 		pack();
 	}
 	
+	/**
+	 * Initialisation du display bilan
+	 */
 	public void init(){
 		generate.addActionListener(new ButonListener());
 		
@@ -83,6 +138,9 @@ public class DisplayBilanManager extends JFrame{
 		taskPanel.setVisible(false);
 	}
 	
+	/**
+	 * Mise a jour du display Bilan
+	 */
 	public void updateBilan(){
 
 		percentPanel.setVisible(true);
@@ -96,6 +154,11 @@ public class DisplayBilanManager extends JFrame{
 		percentTaskEnd.setText("Tâches finies : "+Double.toString(bilan.getPerctOk())+"%");
 	}
 	
+	/**
+	 * Listener sur le bouton générer le bilan
+	 * @author Antoine Laurent et Anthony Brunel
+	 *
+	 */
 	public class ButonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -103,14 +166,24 @@ public class DisplayBilanManager extends JFrame{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return Date de debut
+	 */
 	public Date getDateBegin(){
 		return begin.getDate();
 	}
-	
+	/**
+	 * 
+	 * @return Date de fin
+	 */
 	public Date getDateEnd(){
 		return end.getDate();
 	}
-	
+	/**
+	 * Affiche un message en cas d'erreur
+	 * @param message cas d'erreur
+	 */
 	public void showMessage(int message) {
 		switch(message){
 		case 1 :
