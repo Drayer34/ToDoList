@@ -1,7 +1,11 @@
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
+
+import com.toedter.calendar.JCalendar;
 
 /**
  * Classe pour gérer le bilan des tâches sur une période
@@ -64,9 +68,14 @@ public class Bilan {
 		int cptLate=0;
 		int cptCurt=0;
 		int total=0;
-
+		Calendar dateFin = new GregorianCalendar();
+		dateFin.setTime(fin);
+		dateFin.set(Calendar.HOUR_OF_DAY, 23);
+		dateFin.set(Calendar.MINUTE, 59);
+		dateFin.set(Calendar.SECOND, 59);
+		dateFin.set(Calendar.MILLISECOND, 999);
 		for(Task t : savTaskList){
-			if (t.getDeadline().getTime()<=fin.getTime() && t.getDeadline().getTime() >= debut.getTime()){
+			if (t.getDeadline().getTime() <= dateFin.getTimeInMillis() && t.getDeadline().getTime() >= debut.getTime()){
 				if (!t.getIs_end()){
 					cptCurt++;
 				}
