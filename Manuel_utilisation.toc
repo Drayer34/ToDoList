@@ -1,7 +1,0 @@
-\select@language {french}
-\contentsline {section}{\numberline {1}Lancement de l'application}{3}
-\contentsline {section}{\numberline {2}Les actions possibles}{3}
-\contentsline {subsection}{\numberline {2.1}Cr\IeC {\'e}er une t\IeC {\^a}che}{3}
-\contentsline {subsection}{\numberline {2.2}Cr\IeC {\'e}er Modifier une cat\IeC {\'e}goire}{5}
-\contentsline {subsection}{\numberline {2.3}G\IeC {\'e}n\IeC {\'e}rer le bilan}{5}
-\contentsline {subsection}{\numberline {2.4}Les tris}{5}
