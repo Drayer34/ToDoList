@@ -106,7 +106,6 @@ public class TestTask {
 	public void testNextPartialDeadline(){
 
 		Calendar date = new GregorianCalendar();
-		Date d = new Date();
 		date.add(Calendar.DAY_OF_YEAR, -2);
 		task4.setBegin(date.getTime());
 		

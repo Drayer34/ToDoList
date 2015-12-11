@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import com.toedter.calendar.JCalendar;
 
 /**
  * Classe pour gérer le bilan des tâches sur une période

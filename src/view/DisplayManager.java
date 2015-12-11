@@ -225,7 +225,7 @@ public class DisplayManager extends JFrame{
 		sc_pan.setPreferredSize(new Dimension(250,400));
 		add(sc_pan,"West");
 
-		refreshTaskList();
+		//refreshTaskList();
 		initMenuBar();
 		initTaskDesc();
 
