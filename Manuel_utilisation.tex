@@ -13,6 +13,9 @@
 \begin{document}
 \maketitle
 \newpage
+\tableofcontents
+\listoffigures
+\newpage
 
 \section{Lancement de l'application}
 Pour lancer l'application, il suffit de double cliquer sur ToDoList.jar, de compiler les sources ou bien sous Linux via la commande : \verb+java -jar ToDoList.jar+
@@ -31,19 +34,19 @@ Si l'on veut quitter l'application il faut cliquer sur la croix rouge ou bien ut
 
 %\clearpage
 \section{Les actions possibles}
-Lors de la première utilisation, lorsque vous etes sur la fenêtre principale plusieurs options s'offre alors a vous:
+Lors de la première utilisation, lorsque vous êtes sur la fenêtre principale plusieurs options s'offre alors à vous:
 \newline
 
 \begin{itemize}
 	\item Créer une tâche au long cours.
 	\item Créer une tâche ponctuelle.
-	\item Créer ou modifier une catégorie.
+	\item Créer, modifier ou supprimer une catégorie.
 	\item Générer le bilan.
 	\item Effectuer des tris sur nos tâches.
 \end{itemize}
 
 \subsection{Créer une tâche}
-Pour créer une tâche il faut appuyer sur le bouton Nouvelle tâche dans le menu (Figure~\ref{Taches barre}), ensuite ous pourrez choisir entre une tâche au long cours ou ponctuelle.
+Pour créer une tâche il faut appuyer sur le bouton "Nouvelle tâche" dans le menu (Figure~\ref{Taches barre}), ensuite on pourra choisir entre une tâche au long cours ou ponctuelle.
 
 \begin{figure}
 	\centering
@@ -52,7 +55,7 @@ Pour créer une tâche il faut appuyer sur le bouton Nouvelle tâche dans le men
 	\label{Taches barre}
 \end{figure}
 
-Une fois choisis il ne vous reste plus qu'à entrer les informations à votre tâche (Figures \ref{Tâche au long cours} et \ref{Tâche Ponctuelle}).
+Une fois choisie il ne reste plus qu'à entrer les informations à votre tâche (Figures \ref{Tâche au long cours} et \ref{Tâche Ponctuelle}). Il faut appuyer sur "Valider" pour valider la tâche.
 
 \begin{figure}[!ht]
 	\centering
@@ -70,10 +73,10 @@ Une fois choisis il ne vous reste plus qu'à entrer les informations à votre t�
 	\end{minipage}
 \end{figure}
 
-\textbf{NB :} vous pouvez soit rentrer les dates soit les choisirs avec le calendrier.
+\textbf{NB :} On peut soit rentrer les dates au clavier soit les choisir avec le calendrier.
 \newline
-\newline
-Lorsque l'on ajoute une tâche, on retourne sur la fenêtre principale, les tâches au long cours apparaîtront bleues et les tâches ponctuelles vertes. Le nombre de jours restant avant la fin de la tâche sera indiqué à coté de celle-ci.
+\par
+ Lorsque l'on ajoute une tâche, on retourne sur la fenêtre principale, les tâches au long cours apparaîtront bleues et les tâches ponctuelles vertes. Le nombre de jours restant avant la fin de la tâche sera indiqué à côté de celle-ci.
 De plus, si une tâche est en retard un petit panneau rouge vous l'indiquera.(Figure \ref{Fenetre principale 2}).
 
 \begin{figure}[!h]
@@ -85,7 +88,7 @@ De plus, si une tâche est en retard un petit panneau rouge vous l'indiquera.(Fi
 
 \clearpage
 \subsection{Créer Modifier une catégoire}
-Pour créer/modifier une catégorie il suffit de cliquer sur Option puis Catégorie (Figure \ref{barre Opiton}).
+Pour créer/modifier une catégorie il suffit de cliquer sur "Option" puis "Catégorie" (Figure \ref{barre Opiton}).
 
 \begin{figure}[h]
 	\centering
@@ -94,7 +97,7 @@ Pour créer/modifier une catégorie il suffit de cliquer sur Option puis Catégo
 	\label{barre Opiton}
 \end{figure}
 
-Ensuite vous pouvez voir toutes les catégories, en modifier, en ajouter et en supprimer (Figure \ref{modif Opiton}).
+Ensuite on peut voir toutes les catégories, en modifier, en ajouter ou en supprimer (Figure \ref{modif Opiton}).
 
 \begin{figure}[h]
 	\centering
@@ -106,8 +109,8 @@ Ensuite vous pouvez voir toutes les catégories, en modifier, en ajouter et en s
 %\clearpage
 \subsection{Générer le bilan}
 
-Notre application permet aussi de générer le bilan, pour ceci il faut cliqué sur le bouton Option puis bilan (Figure \ref{barre Opiton}).
-Une nouvelle fenêtre s'ouvre ou il faut rentré la date de début et la date de fin de la période sur laquelle on veut générer le bilan et cliquer sur "générer" (Figrue \ref{bilan}).
+Notre application permet aussi de générer le bilan, pour ceci il faut cliquer sur le bouton "Option" puis "bilan" (Figure \ref{barre Opiton}).
+Une nouvelle fenêtre s'ouvre où il faut rentrer la date de début et la date de fin de la période sur laquelle on veut générer le bilan puis cliquer sur "Générer" (Figrue \ref{bilan}).
 
 \begin{figure}
 	\centering
@@ -116,10 +119,10 @@ Une nouvelle fenêtre s'ouvre ou il faut rentré la date de début et la date de
 	\label{bilan}
 \end{figure}
 
-La fenêtre contiendra les taches comprise dans le bilan, leur status (les tâches finies sont en noir les autres sont en couleur), et le pourcentages de tâches courantes, en retard et finies sur cette période.
+La fenêtre contiendra les tâches comprise dans le bilan, leur statut (les tâches finies sont en noir les autres sont de la couleur de leur type), et le pourcentage de tâches courantes, en retard et finies sur cette période.
 
 \subsection{Les tris}
 
-Il y a trois tris a disposition, le lris simple (tris par deadline), le tris avancé (tris en fonction des échéances intermédiaires), pour les activés il faut cliquer sur option puis sélectioner le tris souhaité (Figure \ref{barre Opiton}).
+Il y a trois tris à disposition, le tris simple (tris par deadline), le tris avancé (tris en fonction des échéances intermédiaires) et le tris par importance. Pour les activer il faut cliquer sur "Option" puis sélectioner le tris souhaité (Figure \ref{barre Opiton}).
 
 \end{document}
